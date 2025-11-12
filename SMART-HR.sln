@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHR", "SMART-HR\SmartHR.csproj", "{647A01F0-1635-42C1-A11D-F88F019B9E14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{647A01F0-1635-42C1-A11D-F88F019B9E14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{647A01F0-1635-42C1-A11D-F88F019B9E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{647A01F0-1635-42C1-A11D-F88F019B9E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{647A01F0-1635-42C1-A11D-F88F019B9E14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40F6A43D-942D-490A-8425-668BEA6A31B6}
+	EndGlobalSection
+EndGlobal

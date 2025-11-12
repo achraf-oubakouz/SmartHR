@@ -1,0 +1,369 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\achra\\source\\repos\\SMART-HR\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\smarthr.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\smarthr.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112192132_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SMART-HR\\Migrations\\20251112192132_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\models\\rapport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\models\\rapport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112192012_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SMART-HR\\Migrations\\20251112192012_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112191817_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SMART-HR\\Migrations\\20251112191817_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112191603_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SMART-HR\\Migrations\\20251112191603_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\9.0.307\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\models\\administrateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\models\\administrateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR.Data\\Context\\ApplicationDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SMART-HR.Data\\Context\\ApplicationDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\models\\employe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\models\\employe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\models\\demandeconge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\models\\demandeconge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\models\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\models\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\models\\manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\models\\manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\models\\pointage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\models\\pointage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\models\\resourceshumaines.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\models\\resourceshumaines.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|c:\\users\\achra\\source\\repos\\smart-hr\\smart-hr\\models\\typeconge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647A01F0-1635-42C1-A11D-F88F019B9E14}|SMART-HR\\SmartHR.csproj|solutionrelative:smart-hr\\models\\typeconge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "20251112192132_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112192132_InitialCreate.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Migrations\\20251112192132_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112192132_InitialCreate.cs",
+              "RelativeToolTip": "SMART-HR\\Migrations\\20251112192132_InitialCreate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T19:21:32.624Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "20251112192012_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112192012_InitialCreate.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Migrations\\20251112192012_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112192012_InitialCreate.cs",
+              "RelativeToolTip": "SMART-HR\\Migrations\\20251112192012_InitialCreate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T19:20:13.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "20251112191817_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112191817_InitialCreate.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Migrations\\20251112191817_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112191817_InitialCreate.cs",
+              "RelativeToolTip": "SMART-HR\\Migrations\\20251112191817_InitialCreate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T19:18:17.178Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "20251112191603_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112191603_InitialCreate.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Migrations\\20251112191603_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Migrations\\20251112191603_InitialCreate.cs",
+              "RelativeToolTip": "SMART-HR\\Migrations\\20251112191603_InitialCreate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T19:16:03.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SmartHR.csproj",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\SmartHR.csproj",
+              "RelativeDocumentMoniker": "SMART-HR\\SmartHR.csproj",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\SmartHR.csproj",
+              "RelativeToolTip": "SMART-HR\\SmartHR.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-07T08:12:09.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\appsettings.json",
+              "RelativeDocumentMoniker": "SMART-HR\\appsettings.json",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\appsettings.json",
+              "RelativeToolTip": "SMART-HR\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-07T08:51:02.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Program.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Program.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Program.cs",
+              "RelativeToolTip": "SMART-HR\\Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAIAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T08:15:41.729Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Rapport.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Rapport.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Models\\Rapport.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Rapport.cs",
+              "RelativeToolTip": "SMART-HR\\Models\\Rapport.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA/wBIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T07:53:31.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Administrateur.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Administrateur.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Models\\Administrateur.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Administrateur.cs",
+              "RelativeToolTip": "SMART-HR\\Models\\Administrateur.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T09:00:47.976Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\ApplicationDbContext.cs",
+              "RelativeToolTip": "SMART-HR\\ApplicationDbContext.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAIwCgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T08:32:56.865Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "DemandeConge.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\DemandeConge.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Models\\DemandeConge.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\DemandeConge.cs",
+              "RelativeToolTip": "SMART-HR\\Models\\DemandeConge.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T07:53:19.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Employe.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Employe.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Models\\Employe.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Employe.cs",
+              "RelativeToolTip": "SMART-HR\\Models\\Employe.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T07:52:14.318Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Microsoft.NET.TargetFrameworkInference.targets",
+              "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\9.0.307\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.307\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets",
+              "ToolTip": "C:\\Program Files\\dotnet\\sdk\\9.0.307\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.307\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAAQwKoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-11-12T18:26:56.57Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "SMART-HR\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T18:34:57.044Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Utilisateur.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Utilisateur.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Models\\Utilisateur.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Utilisateur.cs",
+              "RelativeToolTip": "SMART-HR\\Models\\Utilisateur.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAvwCUAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T07:51:32.255Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Manager.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Manager.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Models\\Manager.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Manager.cs",
+              "RelativeToolTip": "SMART-HR\\Models\\Manager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T07:52:24.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Pointage.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Pointage.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Models\\Pointage.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\Pointage.cs",
+              "RelativeToolTip": "SMART-HR\\Models\\Pointage.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T07:53:02.324Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ResourcesHumaines.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\ResourcesHumaines.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Models\\ResourcesHumaines.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\ResourcesHumaines.cs",
+              "RelativeToolTip": "SMART-HR\\Models\\ResourcesHumaines.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAuwAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T07:52:37.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "TypeConge.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\TypeConge.cs",
+              "RelativeDocumentMoniker": "SMART-HR\\Models\\TypeConge.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR\\Models\\TypeConge.cs",
+              "RelativeToolTip": "SMART-HR\\Models\\TypeConge.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T07:53:43.491Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR.Data\\Context\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "SMART-HR.Data\\Context\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\achra\\source\\repos\\SMART-HR\\SMART-HR.Data\\Context\\ApplicationDbContext.cs",
+              "RelativeToolTip": "SMART-HR.Data\\Context\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAhwBkAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T08:34:50.015Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
