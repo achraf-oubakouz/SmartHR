@@ -1,9 +1,8 @@
-﻿using SMART_HR.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartHR.Core.Entities
+namespace SmartHR.Models
 {
     public class TypeConge
     {

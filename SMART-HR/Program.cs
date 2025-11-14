@@ -1,14 +1,19 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-using SmartHR.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SmartHR;
+using SmartHR.Services.Implementations;
+using SmartHR.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<ICongeService, CongeService>();
+builder.Services.AddScoped<IUtilisateurService, UtilisateurService>();
 
 // Register the DbContext with the connection string from appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

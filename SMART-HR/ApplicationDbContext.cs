@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartHR.Core.Entities;
+using SmartHR.Models;
 
-namespace SmartHR.Data.Context
+namespace SmartHR
 {
     public class ApplicationDbContext : DbContext
     {
@@ -18,7 +18,6 @@ namespace SmartHR.Data.Context
         public DbSet<Admin> Admins { get; set; }
         public DbSet<TypeConge> TypesConges { get; set; }
         public DbSet<DemandeConge> DemandesConges { get; set; }
-        public DbSet<Pointage> Pointages { get; set; }
         public DbSet<Rapport> Rapports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -82,12 +81,7 @@ namespace SmartHR.Data.Context
                 .HasForeignKey(dc => dc.TypeCongeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // 1-N: Employe -> Pointages
-            modelBuilder.Entity<Employe>()
-                .HasMany(e => e.Pointages)
-                .WithOne(p => p.Employe)
-                .HasForeignKey(p => p.EmployeId)
-                .OnDelete(DeleteBehavior.Cascade);
+            // Pointage entity removed
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using SMART_HR.Models;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartHR.Core.Entities
+namespace SmartHR.Models
 {
     public class Utilisateur
     {

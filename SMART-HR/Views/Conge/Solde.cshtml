@@ -1,0 +1,34 @@
+@model IReadOnlyList<SmartHR.Services.Interfaces.LeaveBalanceItem>
+@{
+	ViewData["Title"] = "Solde de congés";
+	var employeId = (int)ViewBag.EmployeId;
+}
+
+<h2>Solde de congés</h2>
+<p>
+	<a class="btn btn-primary" href="@Url.Action("Demander", "Conge", new { employeId })">Demander un congé</a>
+	<a class="btn btn-secondary" href="@Url.Action("Suivi", "Conge", new { employeId })">Suivi des demandes</a>
+</p>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>Type</th>
+		<th>Autorisé</th>
+		<th>Utilisé</th>
+		<th>Restant</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>@item.TypeCongeNom</td>
+			<td>@item.AutoriseJours</td>
+			<td>@item.UtiliseJours</td>
+			<td>@item.ResteJours</td>
+		</tr>
+	}
+	</tbody>
+</table>
+

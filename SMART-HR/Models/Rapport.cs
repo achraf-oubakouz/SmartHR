@@ -1,9 +1,8 @@
-﻿using SMART_HR.Models;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartHR.Core.Entities
+namespace SmartHR.Models
 {
     public class Rapport
     {

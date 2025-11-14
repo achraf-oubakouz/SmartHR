@@ -1,0 +1,37 @@
+@model IReadOnlyList<SmartHR.Models.DemandeConge>
+@{
+	ViewData["Title"] = "Suivi des demandes";
+	var employeId = (int)ViewBag.EmployeId;
+}
+
+<h2>Suivi des demandes</h2>
+<p>
+	<a class="btn btn-primary" href="@Url.Action("Demander", "Conge", new { employeId })">Nouvelle demande</a>
+	<a class="btn btn-secondary" href="@Url.Action("Solde", "Conge", new { employeId })">Voir solde</a>
+	<a class="btn btn-outline-secondary" href="@Url.Action("Historique", "Conge", new { employeId })">Historique</a>
+</p>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>Type</th>
+		<th>Début</th>
+		<th>Fin</th>
+		<th>Statut</th>
+		<th>Demandé le</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var d in Model)
+	{
+		<tr>
+			<td>@d.TypeConge?.Nom</td>
+			<td>@d.DateDebut.ToString("yyyy-MM-dd")</td>
+			<td>@d.DateFin.ToString("yyyy-MM-dd")</td>
+			<td>@d.Statut</td>
+			<td>@d.DateDemande.ToString("yyyy-MM-dd")</td>
+		</tr>
+	}
+	</tbody>
+}
+

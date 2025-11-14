@@ -1,10 +1,9 @@
-﻿using SMART_HR.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartHR.Core.Entities
+namespace SmartHR.Models
 {
     public class Employe
     {
@@ -37,6 +36,5 @@ namespace SmartHR.Core.Entities
         public virtual Manager Manager { get; set; }
 
         public virtual ICollection<DemandeConge> DemandesConges { get; set; }
-        public virtual ICollection<Pointage> Pointages { get; set; }
     }
 }

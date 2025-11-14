@@ -1,0 +1,45 @@
+@model SmartHR.Models.DemandeConge
+@{
+	ViewData["Title"] = "Demander un congé";
+	var types = (IEnumerable<SmartHR.Models.TypeConge>)ViewBag.Types;
+	var employeId = (int)ViewBag.EmployeId;
+}
+
+<h2>Demander un congé</h2>
+
+<form asp-action="Demander" method="post">
+	<input type="hidden" asp-for="EmployeId" />
+
+	<div class="mb-3">
+		<label class="form-label">Type de congé</label>
+		<select class="form-select" asp-for="TypeCongeId">
+			@foreach (var t in types)
+			{
+				<option value="@t.Id">@t.Nom (@t.NombreJoursMax j)</option>
+			}
+		</select>
+	</div>
+
+	<div class="mb-3">
+		<label class="form-label">Date début</label>
+		<input class="form-control" asp-for="DateDebut" type="date" />
+	</div>
+
+	<div class="mb-3">
+		<label class="form-label">Date fin</label>
+		<input class="form-control" asp-for="DateFin" type="date" />
+	</div>
+
+	<div class="mb-3">
+		<label class="form-label">Motif</label>
+		<textarea class="form-control" asp-for="Motif" rows="3"></textarea>
+	</div>
+
+	<button class="btn btn-primary" type="submit">Soumettre</button>
+	<a class="btn btn-secondary" href="@Url.Action("Suivi","Conge", new { employeId })">Annuler</a>
+</form>
+
+<div class="text-danger">
+	@Html.ValidationSummary()
+</div>
+

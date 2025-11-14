@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SmartHR.Data.Context;
+using SmartHR;
 
 #nullable disable
 
@@ -22,7 +22,7 @@ namespace SmartHR.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Admin", b =>
+            modelBuilder.Entity("SmartHR.Models.Admin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +61,7 @@ namespace SmartHR.Migrations
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.DemandeConge", b =>
+            modelBuilder.Entity("SmartHR.Models.DemandeConge", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,7 +107,7 @@ namespace SmartHR.Migrations
                     b.ToTable("DemandesConges");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Employe", b =>
+            modelBuilder.Entity("SmartHR.Models.Employe", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,7 +151,7 @@ namespace SmartHR.Migrations
                     b.ToTable("Employes");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Manager", b =>
+            modelBuilder.Entity("SmartHR.Models.Manager", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -190,41 +190,7 @@ namespace SmartHR.Migrations
                     b.ToTable("Managers");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Pointage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Commentaire")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EmployeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("EstPresent")
-                        .HasColumnType("bit");
-
-                    b.Property<TimeSpan?>("HeureArrivee")
-                        .HasColumnType("time");
-
-                    b.Property<TimeSpan?>("HeureDepart")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeId");
-
-                    b.ToTable("Pointages");
-                });
-
-            modelBuilder.Entity("SmartHR.Core.Entities.Rapport", b =>
+            modelBuilder.Entity("SmartHR.Models.Rapport", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -261,7 +227,7 @@ namespace SmartHR.Migrations
                     b.ToTable("Rapports");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.RessourceHumaine", b =>
+            modelBuilder.Entity("SmartHR.Models.RessourceHumaine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,7 +266,7 @@ namespace SmartHR.Migrations
                     b.ToTable("RessourcesHumaines");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.TypeConge", b =>
+            modelBuilder.Entity("SmartHR.Models.TypeConge", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,7 +295,7 @@ namespace SmartHR.Migrations
                     b.ToTable("TypesConges");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Utilisateur", b =>
+            modelBuilder.Entity("SmartHR.Models.Utilisateur", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -369,30 +335,30 @@ namespace SmartHR.Migrations
                     b.ToTable("Utilisateurs");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Admin", b =>
+            modelBuilder.Entity("SmartHR.Models.Admin", b =>
                 {
-                    b.HasOne("SmartHR.Core.Entities.Utilisateur", "Utilisateur")
+                    b.HasOne("SmartHR.Models.Utilisateur", "Utilisateur")
                         .WithOne("Administrateur")
-                        .HasForeignKey("SmartHR.Core.Entities.Admin", "UtilisateurId")
+                        .HasForeignKey("SmartHR.Models.Admin", "UtilisateurId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Utilisateur");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.DemandeConge", b =>
+            modelBuilder.Entity("SmartHR.Models.DemandeConge", b =>
                 {
-                    b.HasOne("SmartHR.Core.Entities.Employe", "Employe")
+                    b.HasOne("SmartHR.Models.Employe", "Employe")
                         .WithMany("DemandesConges")
                         .HasForeignKey("EmployeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartHR.Core.Entities.Manager", "Manager")
+                    b.HasOne("SmartHR.Models.Manager", "Manager")
                         .WithMany()
                         .HasForeignKey("ManagerId");
 
-                    b.HasOne("SmartHR.Core.Entities.TypeConge", "TypeConge")
+                    b.HasOne("SmartHR.Models.TypeConge", "TypeConge")
                         .WithMany("DemandesConges")
                         .HasForeignKey("TypeCongeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -405,16 +371,16 @@ namespace SmartHR.Migrations
                     b.Navigation("TypeConge");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Employe", b =>
+            modelBuilder.Entity("SmartHR.Models.Employe", b =>
                 {
-                    b.HasOne("SmartHR.Core.Entities.Manager", "Manager")
+                    b.HasOne("SmartHR.Models.Manager", "Manager")
                         .WithMany("Employes")
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("SmartHR.Core.Entities.Utilisateur", "Utilisateur")
+                    b.HasOne("SmartHR.Models.Utilisateur", "Utilisateur")
                         .WithOne("Employe")
-                        .HasForeignKey("SmartHR.Core.Entities.Employe", "UtilisateurId")
+                        .HasForeignKey("SmartHR.Models.Employe", "UtilisateurId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -423,31 +389,20 @@ namespace SmartHR.Migrations
                     b.Navigation("Utilisateur");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Manager", b =>
+            modelBuilder.Entity("SmartHR.Models.Manager", b =>
                 {
-                    b.HasOne("SmartHR.Core.Entities.Utilisateur", "Utilisateur")
+                    b.HasOne("SmartHR.Models.Utilisateur", "Utilisateur")
                         .WithOne("Manager")
-                        .HasForeignKey("SmartHR.Core.Entities.Manager", "UtilisateurId")
+                        .HasForeignKey("SmartHR.Models.Manager", "UtilisateurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Utilisateur");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Pointage", b =>
+            modelBuilder.Entity("SmartHR.Models.Rapport", b =>
                 {
-                    b.HasOne("SmartHR.Core.Entities.Employe", "Employe")
-                        .WithMany("Pointages")
-                        .HasForeignKey("EmployeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employe");
-                });
-
-            modelBuilder.Entity("SmartHR.Core.Entities.Rapport", b =>
-                {
-                    b.HasOne("SmartHR.Core.Entities.Manager", "Manager")
+                    b.HasOne("SmartHR.Models.Manager", "Manager")
                         .WithMany("Rapports")
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -455,37 +410,35 @@ namespace SmartHR.Migrations
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.RessourceHumaine", b =>
+            modelBuilder.Entity("SmartHR.Models.RessourceHumaine", b =>
                 {
-                    b.HasOne("SmartHR.Core.Entities.Utilisateur", "Utilisateur")
+                    b.HasOne("SmartHR.Models.Utilisateur", "Utilisateur")
                         .WithOne("RH")
-                        .HasForeignKey("SmartHR.Core.Entities.RessourceHumaine", "UtilisateurId")
+                        .HasForeignKey("SmartHR.Models.RessourceHumaine", "UtilisateurId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Utilisateur");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Employe", b =>
+            modelBuilder.Entity("SmartHR.Models.Employe", b =>
                 {
                     b.Navigation("DemandesConges");
-
-                    b.Navigation("Pointages");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Manager", b =>
+            modelBuilder.Entity("SmartHR.Models.Manager", b =>
                 {
                     b.Navigation("Employes");
 
                     b.Navigation("Rapports");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.TypeConge", b =>
+            modelBuilder.Entity("SmartHR.Models.TypeConge", b =>
                 {
                     b.Navigation("DemandesConges");
                 });
 
-            modelBuilder.Entity("SmartHR.Core.Entities.Utilisateur", b =>
+            modelBuilder.Entity("SmartHR.Models.Utilisateur", b =>
                 {
                     b.Navigation("Administrateur")
                         .IsRequired();

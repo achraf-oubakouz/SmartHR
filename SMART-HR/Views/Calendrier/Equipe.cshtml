@@ -1,0 +1,38 @@
+@model SmartHR.ViewModels.TeamCalendarViewModel
+@{
+	ViewData["Title"] = "Calendrier d'équipe";
+}
+
+<h2>Calendrier d'équipe</h2>
+
+<h4>Jours fériés</h4>
+<ul>
+@foreach (var jf in Model.JoursFeries)
+{
+	<li>@jf.date.ToString("yyyy-MM-dd") - @jf.label</li>
+}
+</ul>
+
+<h4>Congés de l'équipe (3 mois)</h4>
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>Employé</th>
+		<th>Type</th>
+		<th>Du</th>
+		<th>Au</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var c in Model.CongesEquipe)
+	{
+		<tr>
+			<td>@c.EmployeId</td>
+			<td>@c.TypeConge?.Nom</td>
+			<td>@c.DateDebut.ToString("yyyy-MM-dd")</td>
+			<td>@c.DateFin.ToString("yyyy-MM-dd")</td>
+		</tr>
+	}
+	</tbody>
+</table>
+

@@ -1,0 +1,17 @@
+@{
+	ViewData["Title"] = "Documents RH";
+	var employeId = (int)ViewBag.EmployeId;
+}
+
+<h2>Documents RH</h2>
+<p>Accédez à vos documents (si disponibles):</p>
+
+<ul>
+	<li><a href="@Url.Action("Download","Documents", new { employeId, type = "bulletin" })">Bulletin de salaire</a></li>
+	<li><a href="@Url.Action("Download","Documents", new { employeId, type = "attestation" })">Attestation de travail</a></li>
+	<li><a href="@Url.Action("Download","Documents", new { employeId, type = "contrat" })">Contrat de travail</a></li>
+	<li><a href="@Url.Action("Download","Documents", new { employeId, type = "reglement" })">Règlement interne</a></li>
+</ul>
+
+<p class="text-muted">Placez des fichiers PDF correspondants dans wwwroot/docs/@employeId/ (ex: bulletin.pdf).</p>
+

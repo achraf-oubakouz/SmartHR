@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartHR.Core.Entities
+namespace SmartHR.Models
 {
     public class RessourceHumaine
     {

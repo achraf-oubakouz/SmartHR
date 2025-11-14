@@ -1,0 +1,23 @@
+﻿@model List<SmartHR.Models.Utilisateur>
+
+<h2>Liste des utilisateurs</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Nom</td>
+                <td>@user.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
