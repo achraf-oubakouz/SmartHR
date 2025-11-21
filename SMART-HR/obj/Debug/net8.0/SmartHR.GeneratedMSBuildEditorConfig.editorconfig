@@ -28,24 +28,64 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Calendrier/Equipe.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsZW5kcmllclxFcXVpcGUuY3NodG1s
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Admins/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5zXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Conge/Demander.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ2VcRGVtYW5kZXIuY3NodG1s
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Admins/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5zXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Conge/Historique.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ2VcSGlzdG9yaXF1ZS5jc2h0bWw=
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Admins/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5zXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Conge/Solde.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ2VcU29sZGUuY3NodG1s
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Admins/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5zXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Conge/Suivi.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ2VcU3VpdmkuY3NodG1s
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Admins/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Calendriers/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsZW5kcmllcnNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Calendriers/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsZW5kcmllcnNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Calendriers/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsZW5kcmllcnNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Calendriers/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsZW5kcmllcnNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Calendriers/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsZW5kcmllcnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/DemandeConges/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVtYW5kZUNvbmdlc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/DemandeConges/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVtYW5kZUNvbmdlc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/DemandeConges/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVtYW5kZUNvbmdlc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/DemandeConges/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVtYW5kZUNvbmdlc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/DemandeConges/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVtYW5kZUNvbmdlc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Documents/Index.cshtml]
@@ -98,6 +138,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Managers/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlcnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Rapports/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFwcG9ydHNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Rapports/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFwcG9ydHNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Rapports/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFwcG9ydHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Rapports/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFwcG9ydHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Rapports/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFwcG9ydHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/achra/source/repos/SMART-HR/SMART-HR/Views/Shared/Error.cshtml]

@@ -3,16 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SmartHR;
 
 #nullable disable
 
 namespace SmartHR.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251121081048_AddCalendrierTable")]
+    partial class AddCalendrierTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,7 +64,7 @@ namespace SmartHR.Migrations
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("SmartHR.Models.Calendriers", b =>
+            modelBuilder.Entity("SmartHR.Models.Calendrier", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -93,7 +97,7 @@ namespace SmartHR.Migrations
 
                     b.HasIndex("EmployeId");
 
-                    b.ToTable("Calendriers");
+                    b.ToTable("Calendrier");
                 });
 
             modelBuilder.Entity("SmartHR.Models.DemandeConge", b =>
@@ -381,7 +385,7 @@ namespace SmartHR.Migrations
                     b.Navigation("Utilisateur");
                 });
 
-            modelBuilder.Entity("SmartHR.Models.Calendriers", b =>
+            modelBuilder.Entity("SmartHR.Models.Calendrier", b =>
                 {
                     b.HasOne("SmartHR.Models.Employe", "Employe")
                         .WithMany()

@@ -5,28 +5,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SmartHR;
 using SmartHR.Models;
 
 namespace SmartHR.Controllers
 {
-    public class CalendrierController : Controller
+    public class RapportsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CalendrierController(ApplicationDbContext context)
+        public RapportsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Calendrier
+        // GET: Rapports
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Calendriers.Include(c => c.Employe);
+            var applicationDbContext = _context.Rapports.Include(r => r.Manager);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Calendrier/Details/5
+        // GET: Rapports/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,42 @@ namespace SmartHR.Controllers
                 return NotFound();
             }
 
-            var calendrier = await _context.Calendriers
-                .Include(c => c.Employe)
+            var rapport = await _context.Rapports
+                .Include(r => r.Manager)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (calendrier == null)
+            if (rapport == null)
             {
                 return NotFound();
             }
 
-            return View(calendrier);
+            return View(rapport);
         }
 
-        // GET: Calendrier/Create
+        // GET: Rapports/Create
         public IActionResult Create()
         {
-            ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement");
+            ViewData["ManagerId"] = new SelectList(_context.Managers, "Id", "Departement");
             return View();
         }
 
-        // POST: Calendrier/Create
+        // POST: Rapports/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titre,Type,DateDebut,DateFin,Description,EmployeId")] Calendriers calendrier)
+        public async Task<IActionResult> Create([Bind("Id,DateGeneration,Titre,Description,Type,FichierPath,ManagerId")] Rapport rapport)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(calendrier);
+                _context.Add(rapport);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement", calendrier.EmployeId);
-            return View(calendrier);
+            ViewData["ManagerId"] = new SelectList(_context.Managers, "Id", "Departement", rapport.ManagerId);
+            return View(rapport);
         }
 
-        // GET: Calendrier/Edit/5
+        // GET: Rapports/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +76,23 @@ namespace SmartHR.Controllers
                 return NotFound();
             }
 
-            var calendrier = await _context.Calendriers.FindAsync(id);
-            if (calendrier == null)
+            var rapport = await _context.Rapports.FindAsync(id);
+            if (rapport == null)
             {
                 return NotFound();
             }
-            ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement", calendrier.EmployeId);
-            return View(calendrier);
+            ViewData["ManagerId"] = new SelectList(_context.Managers, "Id", "Departement", rapport.ManagerId);
+            return View(rapport);
         }
 
-        // POST: Calendrier/Edit/5
+        // POST: Rapports/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Titre,Type,DateDebut,DateFin,Description,EmployeId")] Calendriers calendrier)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DateGeneration,Titre,Description,Type,FichierPath,ManagerId")] Rapport rapport)
         {
-            if (id != calendrier.Id)
+            if (id != rapport.Id)
             {
                 return NotFound();
             }
@@ -102,12 +101,12 @@ namespace SmartHR.Controllers
             {
                 try
                 {
-                    _context.Update(calendrier);
+                    _context.Update(rapport);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CalendrierExists(calendrier.Id))
+                    if (!RapportExists(rapport.Id))
                     {
                         return NotFound();
                     }
@@ -118,11 +117,11 @@ namespace SmartHR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement", calendrier.EmployeId);
-            return View(calendrier);
+            ViewData["ManagerId"] = new SelectList(_context.Managers, "Id", "Departement", rapport.ManagerId);
+            return View(rapport);
         }
 
-        // GET: Calendrier/Delete/5
+        // GET: Rapports/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,35 +129,35 @@ namespace SmartHR.Controllers
                 return NotFound();
             }
 
-            var calendrier = await _context.Calendriers
-                .Include(c => c.Employe)
+            var rapport = await _context.Rapports
+                .Include(r => r.Manager)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (calendrier == null)
+            if (rapport == null)
             {
                 return NotFound();
             }
 
-            return View(calendrier);
+            return View(rapport);
         }
 
-        // POST: Calendrier/Delete/5
+        // POST: Rapports/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var calendrier = await _context.Calendriers.FindAsync(id);
-            if (calendrier != null)
+            var rapport = await _context.Rapports.FindAsync(id);
+            if (rapport != null)
             {
-                _context.Calendriers.Remove(calendrier);
+                _context.Rapports.Remove(rapport);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CalendrierExists(int id)
+        private bool RapportExists(int id)
         {
-            return _context.Calendriers.Any(e => e.Id == id);
+            return _context.Rapports.Any(e => e.Id == id);
         }
     }
 }
