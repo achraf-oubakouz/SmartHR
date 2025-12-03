@@ -1,0 +1,34 @@
+@model IEnumerable<SMART_HR.Models.CompanyNewsItem>
+<section class="news-section">
+    <div class="news-header d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+        <div>
+            <h2 class="h5 mb-1">Actualités de l'entreprise</h2>
+            <p class="text-muted small mb-0">
+                Restez informé des annonces internes, des événements et des nouveautés RH.
+            </p>
+        </div>
+        <span class="badge rounded-pill home-badge mt-2 mt-md-0">
+            Informations internes
+        </span>
+    </div>
+
+    <div class="news-list">
+@foreach (var item in Model)
+{
+        <article class="news-row">
+            <div class="news-row-left">
+                <div class="news-date">@item.Date.ToString("dd MMM yyyy")</div>
+                <div class="news-category">@item.Category</div>
+            </div>
+            <div class="news-row-right">
+                <h3 class="news-title">@item.Title</h3>
+                <p class="news-summary text-muted small mb-0">
+                    @item.Summary
+                </p>
+            </div>
+        </article>
+}
+    </div>
+</section>
+
+

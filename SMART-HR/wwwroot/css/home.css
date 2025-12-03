@@ -1,0 +1,143 @@
+html, body {
+  background-color: #f3f4f6;
+}
+
+/* Home layout container */
+.home-shell {
+  max-width: 1180px;
+  margin: 2.5rem auto;
+  padding: 1.5rem 1.75rem;
+  border-radius: 32px;
+  background: radial-gradient(circle at top left, #f9fafb 0, #ffffff 40%, #f3f4ff 100%);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.home-badge {
+  background-color: rgba(13, 110, 253, 0.08) !important;
+  color: #0d6efd !important;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.85rem;
+}
+
+.btn-pill {
+  border-radius: 999px;
+  padding-inline: 1.5rem;
+}
+
+/* Top navigation (Baserow-style) */
+.top-nav-shell {
+  padding: 0.85rem 0;
+}
+
+.top-nav-inner {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  padding-inline: 1.25rem;
+}
+
+.top-nav-links .nav-link {
+  font-size: 1rem;
+  color: #4b5563;
+  padding-inline: 0.9rem;
+}
+
+.top-nav-links .nav-link:hover,
+.top-nav-links .nav-link:focus {
+  color: #111827;
+}
+
+.top-nav-actions .btn {
+  font-size: 0.85rem;
+  padding-block: 0.4rem;
+}
+
+.brand-logo {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+
+/* Simple centered hero (Baserow-style) */
+.home-hero-shell {
+  max-width: 880px;
+  margin: 4.5rem auto 0;
+  padding: 0 1rem;
+}
+
+.home-hero-title {
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  line-height: 1.1;
+}
+
+.home-hero-subtitle {
+  font-size: 0.98rem;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Company news section */
+.news-section {
+  max-width: 920px;
+  margin: 0 auto 4rem;
+  padding: 4rem 1rem 0;
+}
+
+.news-header h2 {
+  font-size: 0.95rem;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.news-row {
+  display: grid;
+  grid-template-columns: minmax(130px, 160px) minmax(0, 1fr);
+  column-gap: 1.25rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.news-row:last-child {
+  border-bottom: none;
+}
+
+.news-row-left {
+  text-align: left;
+}
+
+.news-date {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.news-category {
+  display: inline-flex;
+  margin-top: 0.2rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 0.9rem;
+}
+
+.news-row-right {
+  text-align: left;
+}
+
+.news-title {
+  font-size: 1rem;
+  margin-bottom: 0.15rem;
+}
+
+.news-summary {
+  font-size: 0.9rem;
+}
+
+

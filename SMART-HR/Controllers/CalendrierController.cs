@@ -10,11 +10,11 @@ using SmartHR.Models;
 
 namespace SmartHR.Controllers
 {
-    public class CalendrierController : Controller
+    public class CalendriersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CalendrierController(ApplicationDbContext context)
+        public CalendriersController(ApplicationDbContext context)
         {
             _context = context;
         }
