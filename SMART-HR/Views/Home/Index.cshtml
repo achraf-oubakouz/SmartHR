@@ -1,26 +1,410 @@
-﻿@model IEnumerable<SMART_HR.Models.CompanyNewsItem>
-@{
+﻿@{
     ViewData["Title"] = "Accueil";
 }
 
-<div class="home-hero-shell text-center">
+<!-- ═══════════════════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════════════════ -->
+<header class="site-header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <span class="brand-icon">◆</span> SmartHR
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="mainNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Home" asp-action="Index">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="DemandeConges" asp-action="Index">Congés</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Calendriers" asp-action="Index">Calendrier</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Documents" asp-action="Index">Documents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Rapports" asp-action="Index">Rapports</a>
+                    </li>
+                </ul>
+            </div>
+            <a asp-controller="Home" asp-action="Login" class="btn btn-accent d-none d-lg-inline-flex">Se connecter</a>
+        </nav>
+    </div>
+</header>
 
-    <h1 class="home-hero-title fw-bold mb-3">
-        Bienvenue dans SmartHR – Gestion des congés et présence
-    </h1>
+<!-- ═══════════════════════════════════════════════════════════
+     HERO SECTION
+═══════════════════════════════════════════════════════════ -->
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <p class="hero-eyebrow">Plateforme RH Moderne</p>
+                <h1 class="hero-title">Simplifiez la gestion des congés et de la présence</h1>
+                <div class="hero-cta">
+                    <a asp-controller="DemandeConges" asp-action="Create" class="btn btn-accent">Nouvelle demande</a>
+                    <div class="hero-meta">
+                        <span class="meta-icon">✓</span>
+                        <span>Gérez vos absences et documents RH en quelques clics</span>
+                    </div>
+                </div>
+                <ul class="hero-checks">
+                    <li><span class="check-icon">✓</span> Demandes de congés validées en temps réel</li>
+                    <li><span class="check-icon">✓</span> Calendrier partagé pour toute l'équipe</li>
+                    <li><span class="check-icon">✓</span> Documents RH centralisés et sécurisés</li>
+                    <li><span class="check-icon">✓</span> Rapports et statistiques automatisés</li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-grid">
+                    <div class="hero-img hero-img-1">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=400&q=80" alt="Équipe RH">
+                    </div>
+                    <div class="hero-img hero-img-2">
+                        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80" alt="Professionnelle RH">
+                    </div>
+                    <div class="hero-img hero-img-3">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=400&q=80" alt="Réunion d'équipe">
+                    </div>
+                    <div class="hero-img hero-img-4">
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=400&q=80" alt="Collaboration">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <p class="home-hero-subtitle text-muted mb-4">
-        Suivez vos demandes de congé, votre calendrier, et vos documents RH en un seul endroit.
-    </p>
+<!-- LOGO STRIP -->
+<section class="logo-strip">
+    <div class="container">
+        <div class="logo-row">
+            <div class="logo-item"><span class="logo-icon">📅</span> Congés</div>
+            <div class="logo-item"><span class="logo-icon accent">📊</span> Présence</div>
+            <div class="logo-item"><span class="logo-icon">📁</span> Documents</div>
+            <div class="logo-item"><span class="logo-icon">📈</span> Rapports</div>
+        </div>
+    </div>
+</section>
 
-    <div class="d-flex flex-wrap justify-content-center gap-2 mb-5">
-        <a class="btn btn-primary btn-lg btn-pill" asp-controller="Home" asp-action="Login">
-            Accéder à votre compte
-        </a>
-        <a class="btn btn-outline-secondary btn-lg btn-pill" asp-controller="Calendriers" asp-action="Index">
-            Voir le calendrier RH
-        </a>
+<!-- ═══════════════════════════════════════════════════════════
+     ABOUT SECTION
+═══════════════════════════════════════════════════════════ -->
+<section class="about-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="about-image-wrap">
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80" alt="Équipe de travail" class="about-img">
+                    <div class="about-counter">
+                        <span class="counter-number">100%</span>
+                        <span class="counter-label">Dématérialisé</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-content">
+                    <p class="section-eyebrow">À propos de SmartHR</p>
+                    <h2 class="section-title">La gestion RH simplifiée pour votre entreprise</h2>
+                    <p class="section-desc">SmartHR est une solution complète pour gérer les congés, la présence et les documents de vos collaborateurs. Fini les formulaires papier et les échanges d'emails interminables. Tout est centralisé, automatisé et accessible en quelques clics.</p>
+                    <div class="feature-boxes">
+                        <div class="feature-box">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                            </div>
+                            <h4>Validation rapide</h4>
+                            <p>Les managers reçoivent et valident les demandes instantanément.</p>
+                        </div>
+                        <div class="feature-box">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+                            </div>
+                            <h4>Pour tous</h4>
+                            <p>Interface simple adaptée à tous les collaborateurs.</p>
+                        </div>
+                    </div>
+                    <a asp-controller="Calendriers" asp-action="Index" class="btn btn-accent">Voir le calendrier</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     WHY CHOOSE US
+═══════════════════════════════════════════════════════════ -->
+<section class="why-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <p class="section-eyebrow light">Pourquoi SmartHR</p>
+                <h2 class="section-title light">Une solution adaptée à vos besoins RH</h2>
+                <p class="section-desc light">Notre plateforme s'adapte à la taille et aux processus de votre entreprise. Que vous soyez une PME ou une grande entreprise, SmartHR simplifie le quotidien de vos équipes RH et de vos collaborateurs.</p>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5 class="why-feature-title">Gestion des congés</h5>
+                        <p class="why-feature-desc">Demandes, validations et suivi des soldes en temps réel. Plus de paperasse, tout est automatisé.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="why-feature-title">Suivi de présence</h5>
+                        <p class="why-feature-desc">Visualisez les présences et absences de votre équipe sur un calendrier partagé.</p>
+                    </div>
+                </div>
+                <div class="why-cta mt-4">
+                    <a asp-controller="DemandeConges" asp-action="Index" class="btn btn-light-outline">Mes demandes</a>
+                    <a asp-controller="Documents" asp-action="Index" class="btn btn-link-light">Mes documents</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="why-images">
+                    <div class="why-img-main">
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=500&q=80" alt="Équipe au travail">
+                    </div>
+                    <div class="why-stats">
+                        <div class="stat-card">
+                            <div class="stat-circle" style="--percent: 95;">
+                                <span>95%</span>
+                            </div>
+                            <p class="stat-label">Satisfaction</p>
+                            <p class="stat-desc">Taux de satisfaction des utilisateurs.</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-circle" style="--percent: 80;">
+                                <span>80%</span>
+                            </div>
+                            <p class="stat-label">Temps gagné</p>
+                            <p class="stat-desc">Réduction du temps de traitement.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FONCTIONNALITÉS
+═══════════════════════════════════════════════════════════ -->
+<section class="benefits-section">
+    <div class="container">
+        <p class="section-eyebrow text-center">Fonctionnalités</p>
+        <h2 class="section-title text-center">Tout ce dont vous avez besoin</h2>
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <div class="benefit-img">
+                        <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=400&q=80" alt="Calendrier">
+                    </div>
+                    <div class="benefit-badge">
+                        <span class="badge-icon">📅</span> Gestion des congés
+                    </div>
+                    <p>Demandez, suivez et gérez tous vos types de congés depuis une interface unique.</p>
+                    <a asp-controller="DemandeConges" asp-action="Index" class="benefit-link">Accéder →</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <div class="benefit-img">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=400&q=80" alt="Documents">
+                    </div>
+                    <div class="benefit-content-box">
+                        <h5>Documents RH</h5>
+                        <p>Accédez à vos fiches de paie, contrats et attestations en toute sécurité.</p>
+                        <a asp-controller="Documents" asp-action="Index" class="benefit-link">Accéder →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <div class="benefit-img">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80" alt="Rapports">
+                    </div>
+                    <div class="benefit-content-box">
+                        <h5>Rapports & Analytics</h5>
+                        <p>Générez des rapports détaillés sur les absences et la présence de vos équipes.</p>
+                        <a asp-controller="Rapports" asp-action="Index" class="benefit-link">Accéder →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TÉMOIGNAGES
+═══════════════════════════════════════════════════════════ -->
+<section class="testimonials-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5">
+                <p class="section-eyebrow">Témoignages</p>
+                <h2 class="section-title">Ce que disent nos utilisateurs</h2>
+                <p class="section-desc">SmartHR a transformé notre façon de gérer les ressources humaines. Les demandes de congés qui prenaient des jours sont maintenant traitées en quelques heures.</p>
+                <p class="section-desc">La centralisation des documents RH nous a permis de gagner un temps précieux et d'améliorer la satisfaction de nos collaborateurs.</p>
+            </div>
+            <div class="col-lg-7">
+                <div class="testimonial-cards">
+                    <div class="testimonial-main">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Responsable RH" class="testimonial-img">
+                    </div>
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"SmartHR nous a permis de réduire de 80% le temps passé sur la gestion administrative des congés. L'équipe RH peut enfin se concentrer sur l'essentiel."</p>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="Marie Dupont" class="author-avatar">
+                            <div>
+                                <h6>Marie Dupont</h6>
+                                <span>Directrice RH</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-author mt-3">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80" alt="Pierre Martin" class="author-avatar">
+                            <div>
+                                <h6>Pierre Martin</h6>
+                                <span>Manager d'équipe</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-actions">
+                        <a asp-controller="Employes" asp-action="Index" class="btn btn-outline-dark">Voir les employés</a>
+                        <a asp-controller="Managers" asp-action="Index" class="btn btn-accent">
+                            Espace managers
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CTA BANNER
+═══════════════════════════════════════════════════════════ -->
+<section class="cta-banner">
+    <div class="container text-center">
+        <h2>Prêt à simplifier votre gestion RH ?</h2>
+        <p>Rejoignez les entreprises qui ont déjà adopté SmartHR pour une gestion des ressources humaines moderne et efficace.</p>
+        <a asp-controller="Home" asp-action="Login" class="btn btn-accent">Commencer maintenant</a>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULES SECTION
+═══════════════════════════════════════════════════════════ -->
+<section class="blog-section">
+    <div class="container">
+        <p class="section-eyebrow text-center">Nos modules</p>
+        <h2 class="section-title text-center">Explorez toutes les fonctionnalités</h2>
+        <p class="section-desc text-center mx-auto" style="max-width: 600px;">SmartHR propose une suite complète d'outils pour gérer efficacement vos ressources humaines au quotidien.</p>
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="blog-card">
+                    <div class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400&q=80" alt="Gestion des employés">
+                    </div>
+                    <div class="blog-content">
+                        <h5>Gestion des employés</h5>
+                        <p>Centralisez les informations de vos collaborateurs et gérez les profils facilement.</p>
+                        <a asp-controller="Employes" asp-action="Index" class="blog-link">Accéder →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card">
+                    <div class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=400&q=80" alt="Espace managers">
+                    </div>
+                    <div class="blog-content">
+                        <h5>Espace managers</h5>
+                        <p>Validez les demandes, consultez les plannings et gérez votre équipe efficacement.</p>
+                        <a asp-controller="Managers" asp-action="Index" class="blog-link">Accéder →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card">
+                    <div class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=400&q=80" alt="Administration">
+                    </div>
+                    <div class="blog-content">
+                        <h5>Administration</h5>
+                        <p>Configurez les paramètres, gérez les droits d'accès et supervisez l'ensemble du système.</p>
+                        <a asp-controller="Admins" asp-action="Index" class="blog-link">Accéder →</a>
+                    </div>
+                </div>
+            </div>
     </div>
 </div>
+</section>
 
-<partial name="~/Views/Shared/_CompanyNews.cshtml" model="Model" />
+<!-- ═══════════════════════════════════════════════════════════
+     NEWSLETTER
+═══════════════════════════════════════════════════════════ -->
+<section class="newsletter-section">
+    <div class="container">
+        <div class="newsletter-box">
+            <h3>Restez informé des nouveautés SmartHR</h3>
+            <p>Inscrivez-vous pour recevoir les dernières mises à jour et conseils RH.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Votre adresse email" class="form-control">
+                <button type="submit" class="btn btn-accent">S'inscrire</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="footer-brand">
+                    <span class="brand-icon">◆</span> SmartHR
+                </div>
+                <p class="footer-desc">La solution moderne pour la gestion des congés, de la présence et des documents RH de votre entreprise.</p>
+                <div class="footer-contact">
+                    <p><span>📞</span> +33 1 23 45 67 89</p>
+                    <p><span>✉</span> contact@smarthr.fr</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <h5 class="footer-title">Navigation</h5>
+                <ul class="footer-links">
+                    <li><a asp-controller="Home" asp-action="Index">Accueil</a></li>
+                    <li><a asp-controller="DemandeConges" asp-action="Index">Congés</a></li>
+                    <li><a asp-controller="Calendriers" asp-action="Index">Calendrier</a></li>
+                    <li><a asp-controller="Documents" asp-action="Index">Documents</a></li>
+                    <li><a asp-controller="Rapports" asp-action="Index">Rapports</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <h5 class="footer-title">Espace RH</h5>
+                <ul class="footer-links">
+                    <li><a asp-controller="Employes" asp-action="Index">Employés</a></li>
+                    <li><a asp-controller="Managers" asp-action="Index">Managers</a></li>
+                    <li><a asp-controller="Admins" asp-action="Index">Administration</a></li>
+                    <li><a asp-controller="Home" asp-action="Login">Connexion</a></li>
+                    <li><a asp-controller="Home" asp-action="Privacy">Confidentialité</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="footer-social">
+                    <a href="#" class="social-link">f</a>
+                    <a href="#" class="social-link">in</a>
+                    <a href="#" class="social-link">tw</a>
+                    <a href="#" class="social-link">ig</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 SmartHR - Tous droits réservés</p>
+        </div>
+    </div>
+</footer>

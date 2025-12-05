@@ -4,55 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SMART-HR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SMART_HR.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header class="top-nav-shell">
-        <div class="container">
-            <nav class="navbar navbar-expand-sm navbar-light top-nav-inner">
-                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/smart-hr.png" alt="SmartHR" class="brand-logo" />
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-                        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-center" id="mainNav">
-                    <ul class="navbar-nav top-nav-links">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="DemandeConges" asp-action="Index">Congés</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Calendriers" asp-action="Index">Calendrier</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Documents" asp-action="Index">Documents</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Rapports" asp-action="Index">Rapports</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="d-none d-sm-flex align-items-center gap-2 top-nav-actions">
-                    <a class="btn btn-sm btn-outline-secondary btn-pill"
-                       asp-area="" asp-controller="Home" asp-action="Login">
-                        Se connecter
-                    </a>
-                </div>
-            </nav>
-        </div>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    @RenderBody()
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
