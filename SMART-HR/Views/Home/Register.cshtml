@@ -1,6 +1,6 @@
-@model SmartHR.ViewModels.LoginViewModel
+@model SmartHR.ViewModels.RegisterViewModel
 @{
-    ViewData["Title"] = "Connexion";
+    ViewData["Title"] = "Inscription";
     Layout = null;
 }
 
@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Connexion - SmartHR</title>
+    <title>Inscription - SmartHR</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,18 +25,18 @@
                 </svg>
                 Retour au site
             </a>
-            <div class="login-image-content">
-                <h1>Gérez Simplement.<br>Validez Rapidement.<br>Travaillez Sereinement.</h1>
-                <p>De la demande de congés aux rapports RH, notre plateforme moderne vous accompagne au quotidien.</p>
+            <div class="login-image-content register-image-content">
+                <h1>Rejoignez SmartHR.<br>Simplifiez votre quotidien.<br>Gagnez du temps.</h1>
+                <p>Créez votre compte et accédez à une gestion RH moderne, intuitive et efficace.</p>
             </div>
         </div>
 
         <!-- Right Side - Form -->
         <div class="login-form-side">
-            <div class="login-form-container">
+            <div class="login-form-container register-form-container">
                 <div class="login-header">
-                    <h2>Bon retour !</h2>
-                    <p>Connectez-vous pour accéder à votre espace SmartHR</p>
+                    <h2>Créer un compte</h2>
+                    <p>Remplissez les informations ci-dessous pour commencer</p>
                 </div>
 
                 @if (ViewData["Error"] != null)
@@ -51,39 +51,70 @@
                     </div>
                 }
 
-                <form method="post" asp-action="Login" class="login-form">
-                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
-                    
+                <form method="post" asp-action="Register" class="login-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Prénom</label>
+                            <input type="text" id="firstName" name="FirstName" value="@Model?.FirstName" placeholder="Votre prénom" required />
+                            <span asp-validation-for="FirstName" class="field-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Nom</label>
+                            <input type="text" id="lastName" name="LastName" value="@Model?.LastName" placeholder="Votre nom" required />
+                            <span asp-validation-for="LastName" class="field-error"></span>
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="Email" value="@Model?.Email" placeholder="Entrez votre email" required />
+                        <label for="email">Email professionnel</label>
+                        <input type="email" id="email" name="Email" value="@Model?.Email" placeholder="vous@entreprise.com" required />
                         <span asp-validation-for="Email" class="field-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">Entreprise</label>
+                        <input type="text" id="company" name="Company" value="@Model?.Company" placeholder="Nom de votre entreprise" required />
+                        <span asp-validation-for="Company" class="field-error"></span>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Mot de passe</label>
                         <div class="password-input-wrapper">
-                            <input type="password" id="password" name="Password" placeholder="Entrez votre mot de passe" required />
-                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <input type="password" id="password" name="Password" placeholder="Créez un mot de passe" required />
+                            <button type="button" class="password-toggle" onclick="togglePassword('password')">
                                 <svg class="eye-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
                             </button>
                         </div>
+                        <span class="password-hint">Minimum 8 caractères</span>
                         <span asp-validation-for="Password" class="field-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmer le mot de passe</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="confirmPassword" name="ConfirmPassword" placeholder="Confirmez votre mot de passe" required />
+                            <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                <svg class="eye-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="field-error"></span>
                     </div>
 
                     <div class="form-options">
                         <label class="remember-me">
-                            <input type="checkbox" name="RememberMe" value="true" />
+                            <input type="checkbox" name="AcceptTerms" value="true" required />
                             <span class="custom-checkbox"></span>
-                            Se souvenir de moi
+                            J'accepte les <a href="#" class="terms-link">conditions d'utilisation</a>
                         </label>
-                        <a href="#" class="forgot-password">Mot de passe oublié ?</a>
                     </div>
 
-                    <button type="submit" class="btn-login">Connexion</button>
+                    <button type="submit" class="btn-login">Créer mon compte</button>
                 </form>
 
                 <div class="login-divider">
@@ -97,20 +128,20 @@
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
-                    Continuer avec Google
+                    S'inscrire avec Google
                 </button>
 
                 <p class="signup-link">
-                    Pas encore de compte ? <a asp-controller="Home" asp-action="Register">Inscrivez-vous ici</a>
+                    Déjà un compte ? <a asp-controller="Home" asp-action="Login">Connectez-vous</a>
                 </p>
             </div>
         </div>
     </div>
 
     <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const eyeIcon = document.querySelector('.eye-icon');
+        function togglePassword(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const eyeIcon = passwordInput.parentElement.querySelector('.eye-icon');
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 eyeIcon.style.opacity = '1';

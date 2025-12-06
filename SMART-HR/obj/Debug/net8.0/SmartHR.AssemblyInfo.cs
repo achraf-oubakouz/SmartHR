@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartHR")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d5a78227a99ca5a9b6a5c6bda6b354b493436c2b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b75b5a6907c89a4edfa2a94598751f98b5930c6")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartHR")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartHR")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
