@@ -8,7 +8,7 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    // 🔹 DbSets
+    // DbSets
     public DbSet<Utilisateur> Utilisateurs { get; set; }
     public DbSet<Employe> Employes { get; set; }
     public DbSet<Manager> Managers { get; set; }

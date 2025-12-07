@@ -1,0 +1,276 @@
+@{
+    ViewData["Title"] = "Paramètres Système";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1><i class="bi bi-gear"></i> Paramètres Système</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Paramètres</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        <strong>En développement:</strong> Cette section sera élargie dans les futures versions de SMART-HR.
+    </div>
+
+    <div class="row">
+        <!-- General Settings -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-sliders"></i> Paramètres Généraux</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Nom de l'application</h6>
+                                <small class="text-muted">SMART-HR</small>
+                            </div>
+                            <span class="badge bg-secondary">v1.0</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Langue par défaut</h6>
+                                <small class="text-muted">Français</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" disabled>Modifier</button>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Fuseau horaire</h6>
+                                <small class="text-muted">Europe/Paris</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" disabled>Modifier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Settings -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="bi bi-shield-lock"></i> Paramètres de Sécurité</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Longueur minimale du mot de passe</h6>
+                                <small class="text-muted">6 caractères</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" disabled>Modifier</button>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Authentification à deux facteurs</h6>
+                                <small class="text-muted">Désactivée</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" disabled>Activer</button>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Durée de session</h6>
+                                <small class="text-muted">30 minutes d'inactivité</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" disabled>Modifier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Settings -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-envelope"></i> Paramètres Email</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Serveur SMTP</h6>
+                                <small class="text-muted">Non configuré</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-success" disabled>Configurer</button>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Notifications par email</h6>
+                                <small class="text-muted">Activées</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-success" disabled>Gérer</button>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Email d'expéditeur</h6>
+                                <small class="text-muted">noreply@smarthr.com</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-success" disabled>Modifier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leave Management Settings -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-calendar-check"></i> Gestion des Congés</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Jours de congé annuels</h6>
+                                <small class="text-muted">25 jours</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-warning" disabled>Modifier</button>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Approbation automatique</h6>
+                                <small class="text-muted">Désactivée</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-warning" disabled>Activer</button>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Types de congés</h6>
+                                <small class="text-muted">Gérer les types</small>
+                            </div>
+                            <a asp-controller="DemandeConges" asp-action="Index" class="btn btn-sm btn-warning">Accéder</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Database Settings -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-database"></i> Base de Données</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Statut de la connexion</h6>
+                                <small class="text-muted">Connectée</small>
+                            </div>
+                            <span class="badge bg-success">OK</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Sauvegarde automatique</h6>
+                                <small class="text-muted">Quotidienne à 02:00</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-info" disabled>Configurer</button>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Dernière sauvegarde</h6>
+                                <small class="text-muted">Non configurée</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-info" disabled>Sauvegarder</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-link-45deg"></i> Liens Rapides</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Calendriers" asp-action="Index" class="btn btn-outline-primary">
+                            <i class="bi bi-calendar3"></i> Gérer le Calendrier
+                        </a>
+                        <a asp-controller="Employes" asp-action="Index" class="btn btn-outline-info">
+                            <i class="bi bi-people"></i> Voir les Employés
+                        </a>
+                        <a asp-controller="Managers" asp-action="Index" class="btn btn-outline-warning">
+                            <i class="bi bi-person-workspace"></i> Voir les Managers
+                        </a>
+                        <a asp-controller="Rapports" asp-action="Index" class="btn btn-outline-success">
+                            <i class="bi bi-file-earmark-text"></i> Consulter les Rapports
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Info -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0"><i class="bi bi-info-circle"></i> Informations Système</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <strong>Version:</strong>
+                    <p>SMART-HR v1.0</p>
+                </div>
+                <div class="col-md-3">
+                    <strong>Framework:</strong>
+                    <p>ASP.NET Core 8.0</p>
+                </div>
+                <div class="col-md-3">
+                    <strong>Base de données:</strong>
+                    <p>Entity Framework Core</p>
+                </div>
+                <div class="col-md-3">
+                    <strong>Statut:</strong>
+                    <p><span class="badge bg-success">Opérationnel</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border-radius: 0.5rem;
+    }
+
+    .list-group-item {
+        border-left: none;
+        border-right: none;
+    }
+
+    .list-group-item:first-child {
+        border-top: none;
+    }
+
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+
+    .list-group-item h6 {
+        font-weight: 600;
+        color: #212529;
+    }
+
+    button:disabled {
+        cursor: not-allowed;
+    }
+</style>
+

@@ -265,36 +265,38 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="blog-card">
-                    <div class="blog-img">
-                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=400&q=80" alt="Administration">
-                    </div>
-                    <div class="blog-content">
-                        <h5>Administration</h5>
-                        <p>Configurez les paramètres, gérez les droits d'accès et supervisez l'ensemble du système.</p>
-                        <a asp-controller="Admins" asp-action="Index" class="blog-link">Accéder →</a>
+            @if (Context.Session.GetString("UserRole") == "Admin")
+            {
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=400&q=80" alt="Administration">
+                        </div>
+                        <div class="blog-content">
+                            <h5>Tableau de bord Admin</h5>
+                            <p>Configurez les paramètres, gérez les droits d'accès et supervisez l'ensemble du système.</p>
+                            <a asp-controller="Admins" asp-action="Dashboard" class="blog-link">Accéder →</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=400&q=80" alt="Mon profil">
+                        </div>
+                        <div class="blog-content">
+                            <h5>Mon Profil</h5>
+                            <p>Consultez et modifiez vos informations personnelles et professionnelles.</p>
+                            <a asp-controller="Home" asp-action="Index" class="blog-link">Accéder →</a>
+                        </div>
+                    </div>
+                </div>
+            }
     </div>
 </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════
-     NEWSLETTER
-═══════════════════════════════════════════════════════════ -->
-<section class="newsletter-section">
-    <div class="container">
-        <div class="newsletter-box">
-            <h3>Restez informé des nouveautés SmartHR</h3>
-            <p>Inscrivez-vous pour recevoir les dernières mises à jour et conseils RH.</p>
-            <form class="newsletter-form">
-                <input type="email" placeholder="Votre adresse email" class="form-control">
-                <button type="submit" class="btn btn-accent">S'inscrire</button>
-            </form>
-        </div>
-    </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -328,9 +330,11 @@
                 <ul class="footer-links">
                     <li><a asp-controller="Employes" asp-action="Index">Employés</a></li>
                     <li><a asp-controller="Managers" asp-action="Index">Managers</a></li>
-                    <li><a asp-controller="Admins" asp-action="Index">Administration</a></li>
+                    @if (Context.Session.GetString("UserRole") == "Admin")
+                    {
+                        <li><a asp-controller="Admins" asp-action="Dashboard">Dashboard Admin</a></li>
+                    }
                     <li><a asp-controller="Home" asp-action="Login">Connexion</a></li>
-                    <li><a asp-controller="Home" asp-action="Privacy">Confidentialité</a></li>
                 </ul>
             </div>
             <div class="col-lg-4 col-md-4">

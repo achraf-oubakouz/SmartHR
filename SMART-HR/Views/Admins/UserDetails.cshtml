@@ -1,0 +1,219 @@
+@model SmartHR.ViewModels.UserDetailsViewModel
+@{
+    ViewData["Title"] = "Détails de l'Utilisateur";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1><i class="bi bi-person-circle"></i> Détails de l'Utilisateur</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Users">Utilisateurs</a></li>
+                    <li class="breadcrumb-item active">Détails</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- User Information Card -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-person-badge"></i> Informations Personnelles</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong><i class="bi bi-person"></i> Nom complet:</strong>
+                            <p class="mb-0">@Model.FullName</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong><i class="bi bi-envelope"></i> Email:</strong>
+                            <p class="mb-0">@Model.Email</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong><i class="bi bi-shield-check"></i> Rôle:</strong>
+                            <p class="mb-0">
+                                @switch (Model.Role)
+                                {
+                                    case "Admin":
+                                        <span class="badge bg-danger">Admin</span>
+                                        break;
+                                    case "RH":
+                                        <span class="badge bg-primary">RH</span>
+                                        break;
+                                    case "Manager":
+                                        <span class="badge bg-warning">Manager</span>
+                                        break;
+                                    case "Employe":
+                                        <span class="badge bg-info">Employé</span>
+                                        break;
+                                    default:
+                                        <span class="badge bg-secondary">@Model.Role</span>
+                                        break;
+                                }
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong><i class="bi bi-toggle-on"></i> Statut:</strong>
+                            <p class="mb-0">
+                                @if (Model.Actif)
+                                {
+                                    <span class="badge bg-success">Actif</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Inactif</span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <h6 class="mb-3"><i class="bi bi-briefcase"></i> Informations Professionnelles</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Département:</strong>
+                            <p class="mb-0">@(Model.Departement ?? "Non spécifié")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Poste:</strong>
+                            <p class="mb-0">@(Model.Poste ?? "Non spécifié")</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong><i class="bi bi-telephone"></i> Téléphone:</strong>
+                            <p class="mb-0">@(Model.Telephone ?? "Non spécifié")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong><i class="bi bi-envelope-at"></i> Email Professionnel:</strong>
+                            <p class="mb-0">@(Model.EmailProfessionnel ?? "Non spécifié")</p>
+                        </div>
+                    </div>
+
+                    @if (Model.Role == "Employe" && !string.IsNullOrEmpty(Model.ManagerName))
+                    {
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong><i class="bi bi-person-workspace"></i> Manager:</strong>
+                                <p class="mb-0">
+                                    <a asp-action="UserDetails" asp-route-id="@Model.ManagerId" class="text-decoration-none">
+                                        @Model.ManagerName
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.Role == "Manager" && Model.EmployeeCount > 0)
+                    {
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong><i class="bi bi-people"></i> Employés supervisés:</strong>
+                                <p class="mb-0">@Model.EmployeeCount employé(s)</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-gear"></i> Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="EditUser" asp-route-id="@Model.Id" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i> Modifier
+                        </a>
+                        <a asp-action="ResetPassword" asp-route-id="@Model.Id" class="btn btn-secondary">
+                            <i class="bi bi-key"></i> Réinitialiser le mot de passe
+                        </a>
+                        <form asp-action="ToggleActive" asp-route-id="@Model.Id" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn @(Model.Actif ? "btn-danger" : "btn-success") w-100">
+                                <i class="bi bi-@(Model.Actif ? "x-circle" : "check-circle")"></i> 
+                                @(Model.Actif ? "Désactiver" : "Activer")
+                            </button>
+                        </form>
+                        <hr />
+                        <a asp-action="DeleteUser" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+                            <i class="bi bi-trash"></i> Supprimer
+                        </a>
+                        <a asp-action="Users" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Retour à la liste
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-info-circle"></i> Information</h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-0">
+                        @switch (Model.Role)
+                        {
+                            case "Admin":
+                                <text>Les administrateurs ont un accès complet à toutes les fonctionnalités du système.</text>
+                                break;
+                            case "RH":
+                                <text>Les RH peuvent gérer les congés, les documents et les employés.</text>
+                                break;
+                            case "Manager":
+                                <text>Les managers supervisent les employés et peuvent approuver les demandes de congé.</text>
+                                break;
+                            case "Employe":
+                                <text>Les employés peuvent soumettre des demandes de congé et consulter leurs informations.</text>
+                                break;
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+
+    .card-body strong {
+        color: #495057;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .card-body p {
+        font-size: 1rem;
+        color: #212529;
+    }
+
+    hr {
+        margin: 1.5rem 0;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.4em 0.8em;
+    }
+</style>
+

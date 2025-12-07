@@ -1,0 +1,172 @@
+@model SmartHR.ViewModels.CreateUserViewModel
+@{
+    ViewData["Title"] = "Créer un Utilisateur";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1><i class="bi bi-person-plus"></i> Créer un Utilisateur</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Users">Utilisateurs</a></li>
+                    <li class="breadcrumb-item active">Créer</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0"><i class="bi bi-person-plus-fill"></i> Informations du nouvel utilisateur</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="CreateUser" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <!-- Basic Information -->
+                <h5 class="mb-3"><i class="bi bi-person"></i> Informations de base</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Prenom" class="form-label"></label>
+                        <input asp-for="Prenom" class="form-control" placeholder="Ex: Jean" />
+                        <span asp-validation-for="Prenom" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Nom" class="form-label"></label>
+                        <input asp-for="Nom" class="form-control" placeholder="Ex: Dupont" />
+                        <span asp-validation-for="Nom" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" placeholder="Ex: jean.dupont@example.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="MotDePasse" class="form-label"></label>
+                        <input asp-for="MotDePasse" class="form-control" placeholder="Minimum 6 caractères" />
+                        <span asp-validation-for="MotDePasse" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="Role" class="form-label"></label>
+                        <select asp-for="Role" class="form-select" id="roleSelect">
+                            <option value="">-- Sélectionner un rôle --</option>
+                            <option value="Admin">Admin - Accès complet</option>
+                            <option value="RH">RH - Ressources Humaines</option>
+                            <option value="Manager">Manager - Responsable d'équipe</option>
+                            <option value="Employe">Employé - Utilisateur standard</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="form-check form-switch mt-4">
+                            <input asp-for="Actif" class="form-check-input" type="checkbox" checked />
+                            <label asp-for="Actif" class="form-check-label"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <!-- Role-Specific Information -->
+                <h5 class="mb-3"><i class="bi bi-briefcase"></i> Informations professionnelles</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Departement" class="form-label"></label>
+                        <input asp-for="Departement" class="form-control" placeholder="Ex: IT, RH, Ventes..." />
+                        <span asp-validation-for="Departement" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Poste" class="form-label"></label>
+                        <input asp-for="Poste" class="form-control" placeholder="Ex: Développeur, Assistant..." />
+                        <span asp-validation-for="Poste" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Telephone" class="form-label"></label>
+                        <input asp-for="Telephone" class="form-control" placeholder="Ex: 0612345678" />
+                        <span asp-validation-for="Telephone" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EmailProfessionnel" class="form-label"></label>
+                        <input asp-for="EmailProfessionnel" class="form-control" placeholder="Email professionnel (optionnel)" />
+                        <span asp-validation-for="EmailProfessionnel" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Manager Assignment (only for Employe role) -->
+                <div class="row mb-3" id="managerSection" style="display: none;">
+                    <div class="col-md-6">
+                        <label asp-for="ManagerId" class="form-label"></label>
+                        <select asp-for="ManagerId" class="form-select" asp-items="ViewBag.Managers">
+                            <option value="">-- Aucun manager --</option>
+                        </select>
+                        <span asp-validation-for="ManagerId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <hr />
+
+                <!-- Actions -->
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Users" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Annuler
+                    </a>
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="bi bi-check-circle"></i> Créer l'utilisateur
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            // Show/hide manager section based on role
+            $('#roleSelect').change(function () {
+                if ($(this).val() === 'Employe') {
+                    $('#managerSection').show();
+                } else {
+                    $('#managerSection').hide();
+                }
+            });
+
+            // Trigger on page load if role is already selected
+            $('#roleSelect').trigger('change');
+        });
+    </script>
+}
+
+<style>
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #198754;
+        box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+    }
+
+    hr {
+        margin: 2rem 0;
+        border-top: 2px solid #dee2e6;
+    }
+</style>
+

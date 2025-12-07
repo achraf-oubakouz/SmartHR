@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,20 +14,91 @@ namespace SmartHR.Controllers
     public class CalendriersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private static readonly CultureInfo FrenchCulture = new CultureInfo("fr-FR");
 
         public CalendriersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Calendrier
-        public async Task<IActionResult> Index()
+        // GET: Calendriers - Vue principale du calendrier
+        public async Task<IActionResult> Index(int? mois, int? annee)
         {
-            var applicationDbContext = _context.Calendriers.Include(c => c.Employe);
-            return View(await applicationDbContext.ToListAsync());
+            var currentDate = DateTime.Now;
+            var selectedMonth = mois ?? currentDate.Month;
+            var selectedYear = annee ?? currentDate.Year;
+
+            // Récupérer les événements du calendrier
+            var calendrierEvents = await _context.Calendriers
+                .Include(c => c.Employe)
+                .Where(c => (c.DateDebut.Month == selectedMonth && c.DateDebut.Year == selectedYear) ||
+                           (c.DateFin.Month == selectedMonth && c.DateFin.Year == selectedYear))
+                .ToListAsync();
+
+            // Récupérer les congés approuvés pour ce mois
+            var congesApprouves = await _context.DemandesConges
+                .Include(d => d.Employe)
+                .Include(d => d.TypeConge)
+                .Where(d => d.Statut == "Approuve" &&
+                           ((d.DateDebut.Month == selectedMonth && d.DateDebut.Year == selectedYear) ||
+                            (d.DateFin.Month == selectedMonth && d.DateFin.Year == selectedYear)))
+                .ToListAsync();
+
+            // Jours fériés français (statiques pour l'exemple)
+            var joursFeries = GetJoursFeries(selectedYear);
+
+            ViewBag.SelectedMonth = selectedMonth;
+            ViewBag.SelectedYear = selectedYear;
+            ViewBag.MonthName = FrenchCulture.DateTimeFormat.GetMonthName(selectedMonth);
+            ViewBag.DaysInMonth = DateTime.DaysInMonth(selectedYear, selectedMonth);
+            ViewBag.FirstDayOfMonth = new DateTime(selectedYear, selectedMonth, 1).DayOfWeek;
+            ViewBag.CongesApprouves = congesApprouves;
+            ViewBag.JoursFeries = joursFeries;
+            ViewBag.Today = currentDate;
+
+            return View(calendrierEvents);
         }
 
-        // GET: Calendrier/Details/5
+        // Jours fériés français
+        private List<(DateTime date, string nom)> GetJoursFeries(int annee)
+        {
+            var paques = CalculerPaques(annee);
+            return new List<(DateTime, string)>
+            {
+                (new DateTime(annee, 1, 1), "Jour de l'An"),
+                (paques.AddDays(1), "Lundi de Pâques"),
+                (new DateTime(annee, 5, 1), "Fête du Travail"),
+                (new DateTime(annee, 5, 8), "Victoire 1945"),
+                (paques.AddDays(39), "Ascension"),
+                (paques.AddDays(50), "Lundi de Pentecôte"),
+                (new DateTime(annee, 7, 14), "Fête Nationale"),
+                (new DateTime(annee, 8, 15), "Assomption"),
+                (new DateTime(annee, 11, 1), "Toussaint"),
+                (new DateTime(annee, 11, 11), "Armistice"),
+                (new DateTime(annee, 12, 25), "Noël")
+            };
+        }
+
+        private DateTime CalculerPaques(int annee)
+        {
+            int a = annee % 19;
+            int b = annee / 100;
+            int c = annee % 100;
+            int d = b / 4;
+            int e = b % 4;
+            int f = (b + 8) / 25;
+            int g = (b - f + 1) / 3;
+            int h = (19 * a + b - d - g + 15) % 30;
+            int i = c / 4;
+            int k = c % 4;
+            int l = (32 + 2 * e + 2 * i - h - k) % 7;
+            int m = (a + 11 * h + 22 * l) / 451;
+            int month = (h + l - 7 * m + 114) / 31;
+            int day = ((h + l - 7 * m + 114) % 31) + 1;
+            return new DateTime(annee, month, day);
+        }
+
+        // GET: Calendriers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,16 +117,22 @@ namespace SmartHR.Controllers
             return View(calendrier);
         }
 
-        // GET: Calendrier/Create
+        // GET: Calendriers/Create
         public IActionResult Create()
         {
             ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement");
+            ViewData["Types"] = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Férié", Text = "Jour Férié" },
+                new SelectListItem { Value = "Événement", Text = "Événement" },
+                new SelectListItem { Value = "Réunion", Text = "Réunion" },
+                new SelectListItem { Value = "Formation", Text = "Formation" },
+                new SelectListItem { Value = "Autre", Text = "Autre" }
+            };
             return View();
         }
 
-        // POST: Calendrier/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Calendriers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Titre,Type,DateDebut,DateFin,Description,EmployeId")] Calendriers calendrier)
@@ -69,7 +147,7 @@ namespace SmartHR.Controllers
             return View(calendrier);
         }
 
-        // GET: Calendrier/Edit/5
+        // GET: Calendriers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,12 +161,18 @@ namespace SmartHR.Controllers
                 return NotFound();
             }
             ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement", calendrier.EmployeId);
+            ViewData["Types"] = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Férié", Text = "Jour Férié" },
+                new SelectListItem { Value = "Événement", Text = "Événement" },
+                new SelectListItem { Value = "Réunion", Text = "Réunion" },
+                new SelectListItem { Value = "Formation", Text = "Formation" },
+                new SelectListItem { Value = "Autre", Text = "Autre" }
+            };
             return View(calendrier);
         }
 
-        // POST: Calendrier/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Calendriers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Titre,Type,DateDebut,DateFin,Description,EmployeId")] Calendriers calendrier)
@@ -122,7 +206,7 @@ namespace SmartHR.Controllers
             return View(calendrier);
         }
 
-        // GET: Calendrier/Delete/5
+        // GET: Calendriers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,7 +225,7 @@ namespace SmartHR.Controllers
             return View(calendrier);
         }
 
-        // POST: Calendrier/Delete/5
+        // POST: Calendriers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

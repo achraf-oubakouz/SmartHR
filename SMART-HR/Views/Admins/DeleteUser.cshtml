@@ -1,0 +1,182 @@
+@model SmartHR.ViewModels.UserDetailsViewModel
+@{
+    ViewData["Title"] = "Supprimer l'Utilisateur";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-danger"><i class="bi bi-trash"></i> Supprimer l'Utilisateur</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Users">Utilisateurs</a></li>
+                    <li class="breadcrumb-item active">Supprimer</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill"></i> Confirmation de suppression</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h5 class="alert-heading"><i class="bi bi-exclamation-octagon"></i> Attention !</h5>
+                        <p>Vous êtes sur le point de supprimer définitivement cet utilisateur du système.</p>
+                        <hr />
+                        <p class="mb-0">
+                            <strong>Cette action est irréversible !</strong> Toutes les données associées à cet utilisateur seront supprimées.
+                        </p>
+                    </div>
+
+                    <!-- User Information -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6 class="mb-0">Informations de l'utilisateur à supprimer</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-md-4"><strong>Nom complet:</strong></div>
+                                <div class="col-md-8">@Model.FullName</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-4"><strong>Email:</strong></div>
+                                <div class="col-md-8">@Model.Email</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-4"><strong>Rôle:</strong></div>
+                                <div class="col-md-8">
+                                    @switch (Model.Role)
+                                    {
+                                        case "Admin":
+                                            <span class="badge bg-danger">Admin</span>
+                                            break;
+                                        case "RH":
+                                            <span class="badge bg-primary">RH</span>
+                                            break;
+                                        case "Manager":
+                                            <span class="badge bg-warning">Manager</span>
+                                            break;
+                                        case "Employe":
+                                            <span class="badge bg-info">Employé</span>
+                                            break;
+                                        default:
+                                            <span class="badge bg-secondary">@Model.Role</span>
+                                            break;
+                                    }
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-4"><strong>Statut:</strong></div>
+                                <div class="col-md-8">
+                                    @if (Model.Actif)
+                                    {
+                                        <span class="badge bg-success">Actif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactif</span>
+                                    }
+                                </div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.Departement))
+                            {
+                                <div class="row mb-2">
+                                    <div class="col-md-4"><strong>Département:</strong></div>
+                                    <div class="col-md-8">@Model.Departement</div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Poste))
+                            {
+                                <div class="row">
+                                    <div class="col-md-4"><strong>Poste:</strong></div>
+                                    <div class="col-md-8">@Model.Poste</div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    @if (Model.Role == "Manager" && Model.EmployeeCount > 0)
+                    {
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <strong>Avertissement:</strong> Cet utilisateur est un manager avec @Model.EmployeeCount employé(s) sous sa supervision. 
+                            La suppression de ce manager déconnectera ces employés de leur supervision.
+                        </div>
+                    }
+
+                    <!-- Confirmation Form -->
+                    <form asp-action="DeleteUser" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <hr />
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a asp-action="Users" class="btn btn-secondary btn-lg">
+                                <i class="bi bi-arrow-left"></i> Non, annuler
+                            </a>
+                            <button type="submit" class="btn btn-danger btn-lg" onclick="return confirm('Êtes-vous absolument sûr de vouloir supprimer cet utilisateur ? Cette action est définitive.');">
+                                <i class="bi bi-trash-fill"></i> Oui, supprimer définitivement
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Alternative Action -->
+            <div class="card mt-3 border-info">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0"><i class="bi bi-lightbulb"></i> Alternative recommandée</h6>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>Plutôt que de supprimer l'utilisateur, vous pouvez le désactiver.</strong>
+                    </p>
+                    <p class="mb-3">
+                        La désactivation empêche l'utilisateur de se connecter tout en conservant ses données et son historique dans le système.
+                    </p>
+                    @if (Model.Actif)
+                    {
+                        <form asp-action="ToggleActive" asp-route-id="@Model.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-x-circle"></i> Désactiver cet utilisateur à la place
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="alert alert-secondary mb-0">
+                            <i class="bi bi-info-circle"></i> Cet utilisateur est déjà désactivé.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+
+    .card.border-danger {
+        border-width: 2px;
+    }
+
+    .alert {
+        border-radius: 0.5rem;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.4em 0.8em;
+    }
+</style>
+
