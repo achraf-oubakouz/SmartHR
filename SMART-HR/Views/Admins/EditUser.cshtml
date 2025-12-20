@@ -103,9 +103,12 @@
                     <div class="col-md-6">
                         <label asp-for="ManagerId" class="form-label"></label>
                         <select asp-for="ManagerId" class="form-select" asp-items="ViewBag.Managers">
-                            <option value="">-- Aucun manager --</option>
                         </select>
                         <span asp-validation-for="ManagerId" class="text-danger"></span>
+                        @if (ViewBag.Managers == null || ((IEnumerable<SelectListItem>)ViewBag.Managers).Count() <= 1)
+                        {
+                            <small class="text-muted d-block mt-1">Aucun manager disponible</small>
+                        }
                     </div>
                 </div>
 

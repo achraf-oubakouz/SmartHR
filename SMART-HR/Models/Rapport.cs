@@ -11,9 +11,6 @@ namespace SmartHR.Models
         public string Titre { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
-        public string FichierPath { get; set; }
 
-        public int? ManagerId { get; set; }      //  ← must have the ?
-        public Manager? Manager { get; set; }    //  ← optional navigation
     }
 }

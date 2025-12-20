@@ -1,0 +1,41 @@
+﻿@model SmartHR.Models.Calendriers
+
+@{
+    ViewData["Title"] = "Détails de l'événement";
+}
+
+<div class="container py-5">
+    <div class="mb-4">
+        <h1 class="event-page-title">Détails de l'événement</h1>
+        <p class="event-page-subtitle">Consultez les informations complètes de cet élément du calendrier.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7 col-md-8">
+            <div class="event-card">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Titre</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Titre)</dd>
+
+                    <dt class="col-sm-3">Type</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Type)</dd>
+
+                    <dt class="col-sm-3">Date début</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.DateDebut)</dd>
+
+                    <dt class="col-sm-3">Date fin</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.DateFin)</dd>
+
+                    <dt class="col-sm-3">Description</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
+
+                </dl>
+
+                <div class="event-form-footer d-flex gap-2 mt-3">
+                    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Modifier</a>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

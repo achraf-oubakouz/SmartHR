@@ -1,17 +1,26 @@
 @model SmartHR.ViewModels.AdminDashboardViewModel
 @{
-    ViewData["Title"] = "Tableau de bord Admin";
+    ViewData["Title"] = "Dashboard Admin";
 }
 
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-12">
-            <h1 class="display-4">
-                <i class="bi bi-speedometer2"></i> Tableau de bord Administrateur
-            </h1>
-            <p class="lead">Centre de contrôle du système SMART-HR</p>
+<link rel="stylesheet" href="~/css/admin-dashboard.css" />
+
+<div class="admin-dashboard-pro">
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>Administration</h1>
+                    <p>Vue d'ensemble de votre système</p>
+                </div>
+                <div class="header-right">
+                    <a asp-action="Users" class="btn-primary-pro">
+                        <i class="bi bi-people"></i> Gérer les utilisateurs
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
 
     @if (TempData["Success"] != null)
     {
@@ -29,240 +38,163 @@
         </div>
     }
 
-    <!-- Statistics Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title text-uppercase mb-0">Total Utilisateurs</h6>
-                            <h2 class="mb-0">@Model.TotalUsers</h2>
-                        </div>
-                        <i class="bi bi-people-fill" style="font-size: 3rem; opacity: 0.5;"></i>
-                    </div>
-                    <small>@Model.ActiveUsers actifs / @Model.InactiveUsers inactifs</small>
+        <!-- Statistics Grid -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-meta">
+                    <span class="stat-label">Total Utilisateurs</span>
+                    <span class="stat-trend">+12% ce mois</span>
+                </div>
+                <div class="stat-value">@Model.TotalUsers</div>
+                <div class="stat-progress">
+                    <div class="progress-bar" style="width: @(Model.TotalUsers > 0 ? (double)Model.ActiveUsers / Model.TotalUsers * 100 : 0)%"></div>
+                </div>
+                <div class="stat-footer">
+                    <span class="text-success">@Model.ActiveUsers actifs</span>
+                    <span class="text-muted">@Model.InactiveUsers inactifs</span>
+                </div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-meta">
+                    <span class="stat-label">Administrateurs</span>
+                    <span class="stat-badge admin">Admin</span>
+                </div>
+                <div class="stat-value">@Model.AdminCount</div>
+                <div class="stat-footer">
+                    <span class="text-muted">Accès complet au système</span>
+                </div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-meta">
+                    <span class="stat-label">Ressources Humaines</span>
+                    <span class="stat-badge rh">RH</span>
+                </div>
+                <div class="stat-value">@Model.HRCount</div>
+                <div class="stat-footer">
+                    <span class="text-muted">Gestion du personnel</span>
+                </div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-meta">
+                    <span class="stat-label">Managers</span>
+                    <span class="stat-badge manager">Manager</span>
+                </div>
+                <div class="stat-value">@Model.ManagerCount</div>
+                <div class="stat-footer">
+                    <span class="text-muted">Supervision d'équipe</span>
+                </div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-meta">
+                    <span class="stat-label">Employés</span>
+                    <span class="stat-badge employee">Staff</span>
+                </div>
+                <div class="stat-value">@Model.EmployeeCount</div>
+                <div class="stat-footer">
+                    <span class="text-muted">Personnel général</span>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-danger">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title text-uppercase mb-0">Administrateurs</h6>
-                            <h2 class="mb-0">@Model.AdminCount</h2>
-                        </div>
-                        <i class="bi bi-shield-fill-check" style="font-size: 3rem; opacity: 0.5;"></i>
-                    </div>
-                    <small>Accès complet</small>
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Recent Users -->
+            <div class="content-section users-section">
+                <div class="section-header-pro">
+                    <h3>Utilisateurs Récents</h3>
+                    <a asp-action="Users" class="link-pro">Voir tout →</a>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title text-uppercase mb-0">RH</h6>
-                            <h2 class="mb-0">@Model.HRCount</h2>
-                        </div>
-                        <i class="bi bi-person-badge-fill" style="font-size: 3rem; opacity: 0.5;"></i>
-                    </div>
-                    <small>Ressources Humaines</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-warning">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title text-uppercase mb-0">Managers</h6>
-                            <h2 class="mb-0">@Model.ManagerCount</h2>
-                        </div>
-                        <i class="bi bi-person-workspace" style="font-size: 3rem; opacity: 0.5;"></i>
-                    </div>
-                    <small>Responsables d'équipe</small>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-info">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title text-uppercase mb-0">Employés</h6>
-                            <h2 class="mb-0">@Model.EmployeeCount</h2>
-                        </div>
-                        <i class="bi bi-person-fill" style="font-size: 3rem; opacity: 0.5;"></i>
-                    </div>
-                    <small>Personnel général</small>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0"><i class="bi bi-lightning-fill"></i> Actions rapides</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <a asp-action="Users" class="btn btn-lg btn-primary w-100">
-                                <i class="bi bi-people"></i><br />
-                                Gérer les utilisateurs
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a asp-action="CreateUser" class="btn btn-lg btn-success w-100">
-                                <i class="bi bi-person-plus"></i><br />
-                                Créer un utilisateur
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a asp-controller="Calendriers" asp-action="Index" class="btn btn-lg btn-info w-100">
-                                <i class="bi bi-calendar3"></i><br />
-                                Calendrier
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a asp-action="Settings" class="btn btn-lg btn-secondary w-100">
-                                <i class="bi bi-gear"></i><br />
-                                Paramètres
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <a asp-controller="DemandeConges" asp-action="Index" class="btn btn-lg btn-warning w-100">
-                                <i class="bi bi-calendar-check"></i><br />
-                                Demandes de congé
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a asp-controller="Rapports" asp-action="Index" class="btn btn-lg btn-primary w-100">
-                                <i class="bi bi-file-earmark-text"></i><br />
-                                Rapports
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a asp-controller="Documents" asp-action="Index" class="btn btn-lg btn-success w-100">
-                                <i class="bi bi-file-earmark-pdf"></i><br />
-                                Documents
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a asp-controller="Employes" asp-action="Index" class="btn btn-lg btn-info w-100">
-                                <i class="bi bi-person-lines-fill"></i><br />
-                                Employés
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Users -->
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-clock-history"></i> Utilisateurs récents</h5>
-                </div>
-                <div class="card-body">
+                <div class="users-table">
                     @if (Model.RecentUsers.Any())
                     {
-                        <div class="list-group list-group-flush">
-                            @foreach (var user in Model.RecentUsers)
-                            {
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h6 class="mb-0">@user.FullName</h6>
-                                        <small class="text-muted">@user.Email</small>
-                                    </div>
-                                    <div>
-                                        <span class="@user.RoleBadgeClass me-1">@user.Role</span>
-                                        <span class="@user.StatusClass">@user.Status</span>
+                        @foreach (var user in Model.RecentUsers)
+                        {
+                            var initials = string.Join("", user.FullName.Split(' ').Select(n => n.Substring(0, 1)).Take(2));
+                            <div class="user-row">
+                                <div class="user-info-pro">
+                                    <div class="user-avatar-pro">@initials</div>
+                                    <div class="user-details-pro">
+                                        <div class="user-name-pro">@user.FullName</div>
+                                        <div class="user-email-pro">@user.Email</div>
                                     </div>
                                 </div>
-                            }
-                        </div>
-                        <div class="text-center mt-3">
-                            <a asp-action="Users" class="btn btn-sm btn-outline-primary">Voir tous les utilisateurs</a>
-                        </div>
+                                <div class="user-meta-pro">
+                                    <span class="role-badge-@user.Role.ToLower()">@user.Role</span>
+                                    @if (user.Actif)
+                                    {
+                                        <span class="status-active">●</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-inactive">●</span>
+                                    }
+                                </div>
+                            </div>
+                        }
                     }
                     else
                     {
-                        <p class="text-muted text-center mb-0">Aucun utilisateur</p>
+                        <div class="empty-state-pro">
+                            <p>Aucun utilisateur récent</p>
+                        </div>
                     }
                 </div>
             </div>
+
+            <!-- Quick Links -->
+            <div class="content-section links-section">
+                <div class="section-header-pro">
+                    <h3>Accès Rapide</h3>
+                </div>
+                <nav class="quick-nav">
+                    <a asp-action="CreateUser" class="nav-item-pro">
+                        <i class="bi bi-person-plus"></i>
+                        <span>Nouvel utilisateur</span>
+                    </a>
+                    <a asp-controller="Calendriers" asp-action="Index" class="nav-item-pro">
+                        <i class="bi bi-calendar3"></i>
+                        <span>Calendrier</span>
+                    </a>
+                    <a asp-controller="DemandeConges" asp-action="Index" class="nav-item-pro">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Congés</span>
+                    </a>
+                    <a asp-controller="Rapports" asp-action="Index" class="nav-item-pro">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Rapports</span>
+                    </a>
+                    <a asp-controller="Documents" asp-action="Index" class="nav-item-pro">
+                        <i class="bi bi-file-text"></i>
+                        <span>Documents</span>
+                    </a>
+                    <a asp-action="Settings" class="nav-item-pro">
+                        <i class="bi bi-gear"></i>
+                        <span>Paramètres</span>
+                    </a>
+                </nav>
+            </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Informations système</h5>
+        <!-- System Info -->
+        <div class="system-info">
+            <div class="info-items">
+                <div class="info-pill">
+                    <span class="label">Version</span>
+                    <span class="value">1.0</span>
                 </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <strong>Version système:</strong>
-                            <span>SMART-HR v1.0</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <strong>Base de données:</strong>
-                            <span class="badge bg-success">Connectée</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <strong>Statut:</strong>
-                            <span class="badge bg-success">Opérationnel</span>
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Accès rapides:</strong>
-                            <div class="mt-2">
-                                <a asp-controller="Managers" asp-action="Index" class="btn btn-sm btn-outline-primary me-1">
-                                    <i class="bi bi-person-workspace"></i> Managers
-                                </a>
-                                <a asp-controller="Admins" asp-action="Index" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-shield"></i> Admins
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
+                <div class="info-pill">
+                    <span class="label">Database</span>
+                    <span class="value status-dot">● En ligne</span>
+                </div>
+                <div class="info-pill">
+                    <span class="label">Système</span>
+                    <span class="value status-dot">● Opérationnel</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .card {
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        border-radius: 0.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .card-body {
-        padding: 1.5rem;
-    }
-
-    .bg-primary { background-color: #0d6efd !important; }
-    .bg-danger { background-color: #dc3545 !important; }
-    .bg-success { background-color: #198754 !important; }
-    .bg-warning { background-color: #ffc107 !important; color: #000 !important; }
-    .bg-info { background-color: #0dcaf0 !important; color: #000 !important; }
-</style>
-

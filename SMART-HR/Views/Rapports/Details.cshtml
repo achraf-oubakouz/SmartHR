@@ -1,55 +1,126 @@
 ﻿@model SmartHR.Models.Rapport
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Détails du Rapport";
 }
 
-<h1>Details</h1>
+<style>
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #334155;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        margin-bottom: 1rem;
+        transition: all 0.2s;
+    }
+    .btn-back:hover {
+        background: #f8fafc;
+        color: #1a1a2e;
+    }
+    .details-card {
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        max-width: 700px;
+    }
+    .details-card h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 1.5rem;
+    }
+    .detail-row {
+        display: flex;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+    }
+    .detail-row:last-of-type {
+        border-bottom: none;
+    }
+    .detail-label {
+        width: 200px;
+        font-weight: 600;
+        color: #64748b;
+    }
+    .detail-value {
+        flex: 1;
+        color: #334155;
+    }
+    .report-type-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: #e0e7ff;
+        color: #4f46e5;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    .action-btns {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    .btn-edit {
+        padding: 0.75rem 1.5rem;
+        background: #f59e0b;
+        color: white;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    .btn-edit:hover {
+        background: #d97706;
+        color: white;
+    }
+    .btn-list {
+        padding: 0.75rem 1.5rem;
+        background: #1a1a2e;
+        color: white;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    .btn-list:hover {
+        background: #16213e;
+        color: white;
+    }
+</style>
 
-<div>
-    <h4>Rapport</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateGeneration)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateGeneration)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Titre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Titre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FichierPath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FichierPath)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Manager)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Manager.Departement)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container py-4">
+    <a asp-action="Historique" class="btn-back">
+        ← Retour à l'historique
+    </a>
+
+    <div class="details-card">
+        <h1>@Model.Titre</h1>
+
+        <div class="detail-row">
+            <div class="detail-label">Date de Génération</div>
+            <div class="detail-value">@Model.DateGeneration.ToString("dd MMMM yyyy à HH:mm")</div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Type de Rapport</div>
+            <div class="detail-value">
+                <span class="report-type-badge">@Model.Type</span>
+            </div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Description</div>
+            <div class="detail-value">@(Model.Description ?? "Aucune description")</div>
+        </div>
+
+
+        <div class="action-btns">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-edit">Modifier</a>
+            <a asp-action="Historique" class="btn-list">Retour à l'historique</a>
+        </div>
+    </div>
 </div>

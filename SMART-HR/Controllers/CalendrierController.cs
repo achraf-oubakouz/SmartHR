@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -28,21 +29,39 @@ namespace SmartHR.Controllers
             var selectedMonth = mois ?? currentDate.Month;
             var selectedYear = annee ?? currentDate.Year;
 
-            // Récupérer les événements du calendrier
+            // Récupérer l'utilisateur connecté
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            // Récupérer les événements du calendrier (globaux)
             var calendrierEvents = await _context.Calendriers
                 .Include(c => c.Employe)
                 .Where(c => (c.DateDebut.Month == selectedMonth && c.DateDebut.Year == selectedYear) ||
                            (c.DateFin.Month == selectedMonth && c.DateFin.Year == selectedYear))
                 .ToListAsync();
 
-            // Récupérer les congés approuvés pour ce mois
-            var congesApprouves = await _context.DemandesConges
+            // Récupérer les congés approuvés pour ce mois, uniquement pour l'utilisateur connecté si possible
+            IQueryable<DemandeConge> congesQuery = _context.DemandesConges
                 .Include(d => d.Employe)
                 .Include(d => d.TypeConge)
-                .Where(d => d.Statut == "Approuve" &&
+                .Where(d => d.Statut == "Validé" &&
                            ((d.DateDebut.Month == selectedMonth && d.DateDebut.Year == selectedYear) ||
-                            (d.DateFin.Month == selectedMonth && d.DateFin.Year == selectedYear)))
-                .ToListAsync();
+                            (d.DateFin.Month == selectedMonth && d.DateFin.Year == selectedYear)));
+
+            if (userId.HasValue)
+            {
+                var employe = await _context.Employes.FirstOrDefaultAsync(e => e.UtilisateurId == userId.Value);
+                if (employe != null)
+                {
+                    congesQuery = congesQuery.Where(d => d.EmployeId == employe.Id);
+                }
+                else
+                {
+                    // Aucun profil employé associé : pas de congés affichés pour ce user
+                    congesQuery = congesQuery.Where(d => false);
+                }
+            }
+
+            var congesApprouves = await congesQuery.ToListAsync();
 
             // Jours fériés français (statiques pour l'exemple)
             var joursFeries = GetJoursFeries(selectedYear);
@@ -120,7 +139,12 @@ namespace SmartHR.Controllers
         // GET: Calendriers/Create
         public IActionResult Create()
         {
-            ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement");
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "Employe" || string.IsNullOrEmpty(role))
+            {
+                return Forbid();
+            }
+
             ViewData["Types"] = new List<SelectListItem>
             {
                 new SelectListItem { Value = "Férié", Text = "Jour Férié" },
@@ -135,21 +159,32 @@ namespace SmartHR.Controllers
         // POST: Calendriers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titre,Type,DateDebut,DateFin,Description,EmployeId")] Calendriers calendrier)
+        public async Task<IActionResult> Create([Bind("Id,Titre,Type,DateDebut,DateFin,Description")] Calendriers calendrier)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "Employe" || string.IsNullOrEmpty(role))
+            {
+                return Forbid();
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(calendrier);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement", calendrier.EmployeId);
             return View(calendrier);
         }
 
         // GET: Calendriers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "Employe" || string.IsNullOrEmpty(role))
+            {
+                return Forbid();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -160,7 +195,6 @@ namespace SmartHR.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement", calendrier.EmployeId);
             ViewData["Types"] = new List<SelectListItem>
             {
                 new SelectListItem { Value = "Férié", Text = "Jour Férié" },
@@ -177,6 +211,12 @@ namespace SmartHR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Titre,Type,DateDebut,DateFin,Description,EmployeId")] Calendriers calendrier)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "Employe" || string.IsNullOrEmpty(role))
+            {
+                return Forbid();
+            }
+
             if (id != calendrier.Id)
             {
                 return NotFound();
@@ -186,6 +226,8 @@ namespace SmartHR.Controllers
             {
                 try
                 {
+                    // Préserver l'EmployeId existant (non modifié depuis l'UI)
+                    _context.Entry(calendrier).Property(c => c.EmployeId).IsModified = false;
                     _context.Update(calendrier);
                     await _context.SaveChangesAsync();
                 }
@@ -202,13 +244,18 @@ namespace SmartHR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeId"] = new SelectList(_context.Employes, "Id", "Departement", calendrier.EmployeId);
             return View(calendrier);
         }
 
         // GET: Calendriers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "Employe" || string.IsNullOrEmpty(role))
+            {
+                return Forbid();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -230,6 +277,12 @@ namespace SmartHR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "Employe" || string.IsNullOrEmpty(role))
+            {
+                return Forbid();
+            }
+
             var calendrier = await _context.Calendriers.FindAsync(id);
             if (calendrier != null)
             {

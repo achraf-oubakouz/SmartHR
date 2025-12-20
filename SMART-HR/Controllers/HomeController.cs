@@ -1,7 +1,10 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SMART_HR.Models;
 using SmartHR.Models;
 using SmartHR.ViewModels;
@@ -12,10 +15,12 @@ namespace SMART_HR.Controllers
     public class HomeController : Controller
     {
         private readonly IUtilisateurService _utilisateurService;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(IUtilisateurService utilisateurService)
+        public HomeController(IUtilisateurService utilisateurService, ApplicationDbContext context)
         {
             _utilisateurService = utilisateurService;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -129,6 +134,128 @@ namespace SMART_HR.Controllers
                 ViewData["Error"] = "Une erreur est survenue lors de l'inscription. Veuillez réessayer.";
                 return View(model);
             }
+        }
+
+        public async Task<IActionResult> Profile()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var user = await _context.Utilisateurs.FindAsync(userId.Value);
+            if (user == null)
+            {
+                return RedirectToAction("Logout");
+            }
+
+            var viewModel = new ProfileViewModel
+            {
+                Id = user.Id,
+                Prenom = user.Prenom,
+                Nom = user.Nom,
+                Email = user.Email,
+                Role = user.Role,
+                Actif = user.Actif
+            };
+
+            // Load role-specific information
+            switch (user.Role)
+            {
+                case "Admin":
+                    var admin = await _context.Admins.FirstOrDefaultAsync(a => a.UtilisateurId == user.Id);
+                    if (admin != null)
+                    {
+                        viewModel.Departement = admin.Departement;
+                        viewModel.Poste = admin.Poste;
+                        viewModel.Telephone = admin.Telephone;
+                        viewModel.EmailProfessionnel = admin.EmailProfessionnel;
+                    }
+                    break;
+
+                case "RH":
+                    var rh = await _context.RessourcesHumaines.FirstOrDefaultAsync(r => r.UtilisateurId == user.Id);
+                    if (rh != null)
+                    {
+                        viewModel.Departement = rh.Departement;
+                        viewModel.Poste = rh.Poste;
+                        viewModel.Telephone = rh.Telephone;
+                        viewModel.EmailProfessionnel = rh.EmailProfessionnel;
+                    }
+                    break;
+
+                case "Manager":
+                    var manager = await _context.Managers
+                        .Include(m => m.Employes)
+                        .FirstOrDefaultAsync(m => m.UtilisateurId == user.Id);
+                    if (manager != null)
+                    {
+                        viewModel.Departement = manager.Departement;
+                        viewModel.Poste = manager.Poste;
+                        viewModel.Telephone = manager.Telephone;
+                        viewModel.EmailProfessionnel = manager.EmailProfessionnel;
+                        viewModel.EmployeeCount = manager.Employes?.Count ?? 0;
+                    }
+                    break;
+
+                case "Employe":
+                    var employe = await _context.Employes
+                        .Include(e => e.Manager)
+                        .ThenInclude(m => m.Utilisateur)
+                        .FirstOrDefaultAsync(e => e.UtilisateurId == user.Id);
+                    if (employe != null)
+                    {
+                        viewModel.Departement = employe.Departement;
+                        viewModel.Poste = employe.Poste;
+                        viewModel.Telephone = employe.Telephone;
+                        viewModel.EmailProfessionnel = employe.EmailProfessionnel;
+                        viewModel.ManagerId = employe.ManagerId;
+                        viewModel.ManagerName = employe.Manager != null 
+                            ? $"{employe.Manager.Utilisateur.Prenom} {employe.Manager.Utilisateur.Nom}" 
+                            : null;
+                    }
+                    break;
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Veuillez remplir tous les champs correctement.";
+                return RedirectToAction("Profile");
+            }
+
+            var user = await _context.Utilisateurs.FindAsync(userId.Value);
+            if (user == null)
+            {
+                return RedirectToAction("Logout");
+            }
+
+            // Verify current password
+            if (!_utilisateurService.VerifyPassword(model.CurrentPassword, user.MotDePasse))
+            {
+                TempData["Error"] = "Le mot de passe actuel est incorrect.";
+                return RedirectToAction("Profile");
+            }
+
+            // Update password
+            user.MotDePasse = _utilisateurService.HashPassword(model.NewPassword);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Votre mot de passe a été modifié avec succès.";
+            return RedirectToAction("Profile");
         }
 
         public IActionResult Logout()

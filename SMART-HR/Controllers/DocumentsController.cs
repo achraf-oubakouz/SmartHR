@@ -22,6 +22,9 @@ namespace SmartHR.Controllers
         // GET: /Documents
         public async Task<IActionResult> Index()
         {
+            // Documents functionality disabled
+            return NotFound();
+
             var userId = HttpContext.Session.GetInt32("UserId");
             var userRole = HttpContext.Session.GetString("UserRole");
             
@@ -143,18 +146,16 @@ namespace SmartHR.Controllers
         // GET: /Documents/Download/{id}
         public IActionResult Download(int id, string type)
         {
-            // Dans une vraie application, on récupérerait le document depuis la base de données ou le stockage
-            // Pour cette démo, on retourne un message
-            
-            TempData["Message"] = $"Document '{type}' en cours de génération...";
-            TempData["MessageType"] = "info";
-            
-            return RedirectToAction(nameof(Index));
+            // Documents functionality disabled
+            return NotFound();
         }
 
         // GET: /Documents/Demander
         public IActionResult Demander()
         {
+            // Documents functionality disabled
+            return NotFound();
+
             var userId = HttpContext.Session.GetInt32("UserId");
             if (!userId.HasValue)
             {
@@ -178,6 +179,9 @@ namespace SmartHR.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Demander(string typeDocument, string motif)
         {
+            // Documents functionality disabled
+            return NotFound();
+
             var userId = HttpContext.Session.GetInt32("UserId");
             if (!userId.HasValue)
             {

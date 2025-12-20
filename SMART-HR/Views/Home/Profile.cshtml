@@ -1,0 +1,294 @@
+@model SmartHR.ViewModels.ProfileViewModel
+@{
+    ViewData["Title"] = "Mon Profil";
+}
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5"><i class="bi bi-person-circle"></i> Mon Profil</h1>
+            <p class="text-muted">Consultez et gérez vos informations personnelles</p>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        <!-- Profile Information Card -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-person-badge"></i> Informations Personnelles</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Prénom</label>
+                            <p class="fw-bold">@Model.Prenom</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Nom</label>
+                            <p class="fw-bold">@Model.Nom</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Email</label>
+                            <p class="fw-bold">
+                                <i class="bi bi-envelope"></i> @Model.Email
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Rôle</label>
+                            <p>
+                                <span class="@Model.RoleBadgeClass">@Model.RoleDisplay</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Statut du compte</label>
+                            <p>
+                                @if (Model.Actif)
+                                {
+                                    <span class="badge bg-success"><i class="bi bi-check-circle"></i> Actif</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Inactif</span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Information Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-briefcase"></i> Informations Professionnelles</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Département</label>
+                            <p class="fw-bold">@(Model.Departement ?? "Non renseigné")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Poste</label>
+                            <p class="fw-bold">@(Model.Poste ?? "Non renseigné")</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Téléphone</label>
+                            <p class="fw-bold">
+                                @if (!string.IsNullOrEmpty(Model.Telephone))
+                                {
+                                    <i class="bi bi-telephone"></i> @Model.Telephone
+                                }
+                                else
+                                {
+                                    <text>Non renseigné</text>
+                                }
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Email Professionnel</label>
+                            <p class="fw-bold">
+                                @if (!string.IsNullOrEmpty(Model.EmailProfessionnel))
+                                {
+                                    <i class="bi bi-envelope-at"></i> @Model.EmailProfessionnel
+                                }
+                                else
+                                {
+                                    <text>Non renseigné</text>
+                                }
+                            </p>
+                        </div>
+                    </div>
+
+                    @if (Model.Role == "Employe" && !string.IsNullOrEmpty(Model.ManagerName))
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label text-muted">Manager</label>
+                                <p class="fw-bold">
+                                    <i class="bi bi-person-workspace"></i> @Model.ManagerName
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.Role == "Manager" && Model.EmployeeCount > 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label text-muted">Équipe</label>
+                                <p class="fw-bold">
+                                    <i class="bi bi-people"></i> @Model.EmployeeCount employé(s) sous votre supervision
+                                </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Change Password Card -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-key"></i> Changer le Mot de Passe</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ChangePassword" method="post">
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Mot de passe actuel</label>
+                            <input type="password" class="form-control" id="currentPassword" name="CurrentPassword" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Nouveau mot de passe</label>
+                            <input type="password" class="form-control" id="newPassword" name="NewPassword" required minlength="6">
+                            <div class="form-text">Le mot de passe doit contenir au moins 6 caractères</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirmer le nouveau mot de passe</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="ConfirmPassword" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-shield-check"></i> Modifier le mot de passe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Info & Actions Sidebar -->
+        <div class="col-lg-4">
+            <!-- Profile Summary Card -->
+            <div class="card shadow-sm mb-4 text-center">
+                <div class="card-body py-5">
+                    <div class="mb-3">
+                        <i class="bi bi-person-circle display-1 text-primary"></i>
+                    </div>
+                    <h4 class="mb-1">@Model.FullName</h4>
+                    <p class="text-muted mb-3">@Model.RoleDisplay</p>
+                    <span class="@Model.RoleBadgeClass">@Model.Role</span>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h6 class="mb-0"><i class="bi bi-lightning"></i> Actions Rapides</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-controller="DemandeConges" asp-action="Index" class="btn btn-outline-primary">
+                            <i class="bi bi-calendar-check"></i> Mes Congés
+                        </a>
+                        <a asp-controller="Documents" asp-action="Index" class="btn btn-outline-info">
+                            <i class="bi bi-file-earmark-text"></i> Mes Documents
+                        </a>
+                        <a asp-controller="Rapports" asp-action="Index" class="btn btn-outline-success">
+                            <i class="bi bi-graph-up"></i> Rapports
+                        </a>
+                        @if (Model.Role == "Admin")
+                        {
+                            <hr class="my-2">
+                            <a asp-controller="Admins" asp-action="Dashboard" class="btn btn-danger">
+                                <i class="bi bi-speedometer2"></i> Dashboard Admin
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Info Card -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-info-circle"></i> Information du Compte</h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-2">
+                        <strong>ID Utilisateur:</strong> #@Model.Id
+                    </p>
+                    <p class="small text-muted mb-0">
+                        Pour toute modification de vos informations personnelles ou professionnelles, 
+                        veuillez contacter @(Model.Role == "Admin" ? "un autre administrateur" : "votre administrateur").
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Password confirmation validation
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            var newPassword = document.getElementById('newPassword').value;
+            var confirmPassword = this.value;
+            
+            if (newPassword !== confirmPassword) {
+                this.setCustomValidity('Les mots de passe ne correspondent pas');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    </script>
+}
+
+<style>
+    .card {
+        border-radius: 0.5rem;
+        border: none;
+    }
+    
+    .card-header {
+        border-radius: 0.5rem 0.5rem 0 0 !important;
+    }
+    
+    .form-label.text-muted {
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.25rem;
+    }
+    
+    .fw-bold {
+        font-size: 1.1rem;
+    }
+    
+    .shadow-sm {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    }
+    
+    .badge {
+        font-size: 0.875rem;
+        padding: 0.5em 1em;
+    }
+</style>
+

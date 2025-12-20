@@ -124,8 +124,17 @@ namespace SmartHR.Controllers
             var accessCheck = CheckAdminAccess();
             if (accessCheck != null) return accessCheck;
 
-            ViewBag.Managers = new SelectList(_context.Managers.Include(m => m.Utilisateur)
-                .Select(m => new { m.Id, Name = m.Utilisateur.Prenom + " " + m.Utilisateur.Nom }), "Id", "Name");
+            var managersList = _context.Utilisateurs
+                .Where(u => u.Role == "Manager" && u.Actif)
+                .Join(_context.Managers,
+                    u => u.Id,
+                    m => m.UtilisateurId,
+                    (u, m) => new { m.Id, Name = u.Prenom + " " + u.Nom })
+                .ToList();
+            
+            var managerSelectList = new List<SelectListItem> { new SelectListItem { Value = "", Text = "-- Aucun manager --" } };
+            managerSelectList.AddRange(managersList.Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name }));
+            ViewBag.Managers = new SelectList(managerSelectList, "Value", "Text");
             
             return View();
         }
@@ -144,8 +153,17 @@ namespace SmartHR.Controllers
                 if (_utilisateurService.EmailExists(model.Email))
                 {
                     ModelState.AddModelError("Email", "Cet email est déjà utilisé.");
-                    ViewBag.Managers = new SelectList(_context.Managers.Include(m => m.Utilisateur)
-                        .Select(m => new { m.Id, Name = m.Utilisateur.Prenom + " " + m.Utilisateur.Nom }), "Id", "Name");
+                    var managersForError = await _context.Utilisateurs
+                        .Where(u => u.Role == "Manager" && u.Actif)
+                        .Join(_context.Managers,
+                            u => u.Id,
+                            m => m.UtilisateurId,
+                            (u, m) => new { m.Id, Name = u.Prenom + " " + u.Nom })
+                        .ToListAsync();
+                    
+                    var managerSelectForError = new List<SelectListItem> { new SelectListItem { Value = "", Text = "-- Aucun manager --" } };
+                    managerSelectForError.AddRange(managersForError.Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name }));
+                    ViewBag.Managers = new SelectList(managerSelectForError, "Value", "Text");
                     return View(model);
                 }
 
@@ -172,7 +190,7 @@ namespace SmartHR.Controllers
                             UtilisateurId = user.Id,
                             Departement = model.Departement ?? "Administration",
                             Poste = model.Poste ?? "Administrateur",
-                            Telephone = model.Telephone,
+                            Telephone = model.Telephone ?? "",
                             EmailProfessionnel = model.EmailProfessionnel ?? model.Email
                         };
                         _context.Admins.Add(admin);
@@ -184,7 +202,7 @@ namespace SmartHR.Controllers
                             UtilisateurId = user.Id,
                             Departement = model.Departement ?? "Ressources Humaines",
                             Poste = model.Poste ?? "Responsable RH",
-                            Telephone = model.Telephone,
+                            Telephone = model.Telephone ?? "",
                             EmailProfessionnel = model.EmailProfessionnel ?? model.Email
                         };
                         _context.RessourcesHumaines.Add(rh);
@@ -196,7 +214,7 @@ namespace SmartHR.Controllers
                             UtilisateurId = user.Id,
                             Departement = model.Departement ?? "Management",
                             Poste = model.Poste ?? "Manager",
-                            Telephone = model.Telephone,
+                            Telephone = model.Telephone ?? "",
                             EmailProfessionnel = model.EmailProfessionnel ?? model.Email
                         };
                         _context.Managers.Add(manager);
@@ -221,8 +239,17 @@ namespace SmartHR.Controllers
                 return RedirectToAction(nameof(Users));
             }
 
-            ViewBag.Managers = new SelectList(_context.Managers.Include(m => m.Utilisateur)
-                .Select(m => new { m.Id, Name = m.Utilisateur.Prenom + " " + m.Utilisateur.Nom }), "Id", "Name");
+            var managersList = await _context.Utilisateurs
+                .Where(u => u.Role == "Manager" && u.Actif)
+                .Join(_context.Managers,
+                    u => u.Id,
+                    m => m.UtilisateurId,
+                    (u, m) => new { m.Id, Name = u.Prenom + " " + u.Nom })
+                .ToListAsync();
+            
+            var managerSelectList = new List<SelectListItem> { new SelectListItem { Value = "", Text = "-- Aucun manager --" } };
+            managerSelectList.AddRange(managersList.Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name }));
+            ViewBag.Managers = new SelectList(managerSelectList, "Value", "Text");
             return View(model);
         }
 
@@ -302,8 +329,22 @@ namespace SmartHR.Controllers
                     break;
             }
 
-            ViewBag.Managers = new SelectList(_context.Managers.Include(m => m.Utilisateur)
-                .Select(m => new { m.Id, Name = m.Utilisateur.Prenom + " " + m.Utilisateur.Nom }), "Id", "Name", viewModel.ManagerId);
+            var managersList = await _context.Utilisateurs
+                .Where(u => u.Role == "Manager" && u.Actif)
+                .Join(_context.Managers,
+                    u => u.Id,
+                    m => m.UtilisateurId,
+                    (u, m) => new { m.Id, Name = u.Prenom + " " + u.Nom })
+                .ToListAsync();
+            
+            var managerSelectList = new List<SelectListItem> { new SelectListItem { Value = "", Text = "-- Aucun manager --", Selected = viewModel.ManagerId == null } };
+            managerSelectList.AddRange(managersList.Select(m => new SelectListItem 
+            { 
+                Value = m.Id.ToString(), 
+                Text = m.Name,
+                Selected = viewModel.ManagerId.HasValue && viewModel.ManagerId.Value == m.Id
+            }));
+            ViewBag.Managers = managerSelectList;
 
             return View(viewModel);
         }
@@ -335,8 +376,17 @@ namespace SmartHR.Controllers
                     if (user.Email != model.Email && _utilisateurService.EmailExists(model.Email))
                     {
                         ModelState.AddModelError("Email", "Cet email est déjà utilisé.");
-                        ViewBag.Managers = new SelectList(_context.Managers.Include(m => m.Utilisateur)
-                            .Select(m => new { m.Id, Name = m.Utilisateur.Prenom + " " + m.Utilisateur.Nom }), "Id", "Name", model.ManagerId);
+                        var managersForError = await _context.Utilisateurs
+                            .Where(u => u.Role == "Manager" && u.Actif)
+                            .Join(_context.Managers,
+                                u => u.Id,
+                                m => m.UtilisateurId,
+                                (u, m) => new { m.Id, Name = u.Prenom + " " + u.Nom })
+                            .ToListAsync();
+                        
+                        var managerSelectForError = new List<SelectListItem> { new SelectListItem { Value = "", Text = "-- Aucun manager --" } };
+                        managerSelectForError.AddRange(managersForError.Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name }));
+                        ViewBag.Managers = new SelectList(managerSelectForError, "Value", "Text", model.ManagerId?.ToString() ?? "");
                         return View(model);
                     }
 
@@ -349,7 +399,7 @@ namespace SmartHR.Controllers
 
                     _context.Update(user);
 
-                    // Update role-specific entity
+                    // Update or create role-specific entity
                     switch (model.Role)
                     {
                         case "Admin":
@@ -358,9 +408,21 @@ namespace SmartHR.Controllers
                             {
                                 admin.Departement = model.Departement ?? "Administration";
                                 admin.Poste = model.Poste ?? "Administrateur";
-                                admin.Telephone = model.Telephone;
+                                admin.Telephone = model.Telephone ?? "";
                                 admin.EmailProfessionnel = model.EmailProfessionnel ?? model.Email;
                                 _context.Update(admin);
+                            }
+                            else
+                            {
+                                admin = new Admin
+                                {
+                                    UtilisateurId = user.Id,
+                                    Departement = model.Departement ?? "Administration",
+                                    Poste = model.Poste ?? "Administrateur",
+                                    Telephone = model.Telephone ?? "",
+                                    EmailProfessionnel = model.EmailProfessionnel ?? model.Email
+                                };
+                                _context.Admins.Add(admin);
                             }
                             break;
 
@@ -370,9 +432,21 @@ namespace SmartHR.Controllers
                             {
                                 rh.Departement = model.Departement ?? "Ressources Humaines";
                                 rh.Poste = model.Poste ?? "Responsable RH";
-                                rh.Telephone = model.Telephone;
+                                rh.Telephone = model.Telephone ?? "";
                                 rh.EmailProfessionnel = model.EmailProfessionnel ?? model.Email;
                                 _context.Update(rh);
+                            }
+                            else
+                            {
+                                rh = new RessourceHumaine
+                                {
+                                    UtilisateurId = user.Id,
+                                    Departement = model.Departement ?? "Ressources Humaines",
+                                    Poste = model.Poste ?? "Responsable RH",
+                                    Telephone = model.Telephone ?? "",
+                                    EmailProfessionnel = model.EmailProfessionnel ?? model.Email
+                                };
+                                _context.RessourcesHumaines.Add(rh);
                             }
                             break;
 
@@ -382,9 +456,21 @@ namespace SmartHR.Controllers
                             {
                                 manager.Departement = model.Departement ?? "Management";
                                 manager.Poste = model.Poste ?? "Manager";
-                                manager.Telephone = model.Telephone;
+                                manager.Telephone = model.Telephone ?? "";
                                 manager.EmailProfessionnel = model.EmailProfessionnel ?? model.Email;
                                 _context.Update(manager);
+                            }
+                            else
+                            {
+                                manager = new Manager
+                                {
+                                    UtilisateurId = user.Id,
+                                    Departement = model.Departement ?? "Management",
+                                    Poste = model.Poste ?? "Manager",
+                                    Telephone = model.Telephone ?? "",
+                                    EmailProfessionnel = model.EmailProfessionnel ?? model.Email
+                                };
+                                _context.Managers.Add(manager);
                             }
                             break;
 
@@ -398,6 +484,20 @@ namespace SmartHR.Controllers
                                 employe.EmailProfessionnel = model.EmailProfessionnel ?? model.Email;
                                 employe.ManagerId = model.ManagerId;
                                 _context.Update(employe);
+                            }
+                            else
+                            {
+                                employe = new Employe
+                                {
+                                    UtilisateurId = user.Id,
+                                    Departement = model.Departement ?? "General",
+                                    Poste = model.Poste ?? "Employé",
+                                    Telephone = model.Telephone,
+                                    EmailProfessionnel = model.EmailProfessionnel ?? model.Email,
+                                    ManagerId = model.ManagerId,
+                                    JoursCongesTotal = 30
+                                };
+                                _context.Employes.Add(employe);
                             }
                             break;
                     }
@@ -419,8 +519,22 @@ namespace SmartHR.Controllers
                 }
             }
 
-            ViewBag.Managers = new SelectList(_context.Managers.Include(m => m.Utilisateur)
-                .Select(m => new { m.Id, Name = m.Utilisateur.Prenom + " " + m.Utilisateur.Nom }), "Id", "Name", model.ManagerId);
+            var managersList = await _context.Utilisateurs
+                .Where(u => u.Role == "Manager" && u.Actif)
+                .Join(_context.Managers,
+                    u => u.Id,
+                    m => m.UtilisateurId,
+                    (u, m) => new { m.Id, Name = u.Prenom + " " + u.Nom })
+                .ToListAsync();
+            
+            var managerSelectList = new List<SelectListItem> { new SelectListItem { Value = "", Text = "-- Aucun manager --", Selected = model.ManagerId == null } };
+            managerSelectList.AddRange(managersList.Select(m => new SelectListItem 
+            { 
+                Value = m.Id.ToString(), 
+                Text = m.Name,
+                Selected = model.ManagerId.HasValue && model.ManagerId.Value == m.Id
+            }));
+            ViewBag.Managers = managerSelectList;
             return View(model);
         }
 

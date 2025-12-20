@@ -8,7 +8,7 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    // DbSets
+    // 🔹 DbSets
     public DbSet<Utilisateur> Utilisateurs { get; set; }
     public DbSet<Employe> Employes { get; set; }
     public DbSet<Manager> Managers { get; set; }
@@ -45,12 +45,6 @@ public class ApplicationDbContext : DbContext
             .HasMany(m => m.Employes)
             .WithOne(e => e.Manager)
             .HasForeignKey(e => e.ManagerId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        modelBuilder.Entity<Manager>()
-            .HasMany(m => m.Rapports)
-            .WithOne(r => r.Manager)
-            .HasForeignKey(r => r.ManagerId)
             .OnDelete(DeleteBehavior.SetNull);
 
         modelBuilder.Entity<Employe>()

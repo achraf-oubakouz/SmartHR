@@ -1,66 +1,256 @@
 ﻿@model SmartHR.Models.DemandeConge
+@using System.Text.Json
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nouvelle demande de congé";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var joursRestants = ViewData["JoursRestants"] as int? ?? 0;
+    var joursTotal = ViewData["JoursTotal"] as int? ?? 30;
 }
 
-<h1>Create</h1>
+<link rel="stylesheet" href="~/css/conges.css" />
 
-<h4>DemandeConge</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EmployeId" class="control-label"></label>
-                <select asp-for="EmployeId" class ="form-control" asp-items="ViewBag.EmployeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TypeCongeId" class="control-label"></label>
-                <select asp-for="TypeCongeId" class ="form-control" asp-items="ViewBag.TypeCongeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateDebut" class="control-label"></label>
-                <input asp-for="DateDebut" class="form-control" />
-                <span asp-validation-for="DateDebut" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateFin" class="control-label"></label>
-                <input asp-for="DateFin" class="form-control" />
-                <span asp-validation-for="DateFin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Motif" class="control-label"></label>
-                <input asp-for="Motif" class="form-control" />
-                <span asp-validation-for="Motif" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateDemande" class="control-label"></label>
-                <input asp-for="DateDemande" class="form-control" />
-                <span asp-validation-for="DateDemande" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Statut" class="control-label"></label>
-                <input asp-for="Statut" class="form-control" />
-                <span asp-validation-for="Statut" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ManagerId" class="control-label"></label>
-                <select asp-for="ManagerId" class ="form-control" asp-items="ViewBag.ManagerId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="conges-container">
+    <div class="conges-header">
+        <div class="header-content">
+            <h1>Nouvelle demande de congé</h1>
+            <p class="subtitle">Remplissez le formulaire ci-dessous pour soumettre votre demande</p>
+        </div>
+        <a asp-action="MesDemandes" class="btn-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Mes demandes
+        </a>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div class="create-conge-layout">
+        <!-- Formulaire principal -->
+        <div class="form-card">
+            <form asp-action="Create" method="post" id="congeForm">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="All" class="alert alert-danger"></div>
+
+                <!-- Type de congé -->
+                <div class="form-group-modern">
+                    <label for="TypeCongeId" class="form-label-modern">
+                        <i class="bi bi-calendar-check"></i>
+                        Type de congé
+                    </label>
+                    <select asp-for="TypeCongeId" class="form-control-modern" asp-items="ViewBag.TypeCongeId" required>
+                        <option value="">Sélectionnez un type de congé</option>
+                    </select>
+                    <span asp-validation-for="TypeCongeId" class="text-danger"></span>
+                </div>
+
+                <!-- Dates -->
+                <div class="form-row-modern">
+                    <div class="form-group-modern">
+                        <label for="DateDebut" class="form-label-modern">
+                            <i class="bi bi-calendar-event"></i>
+                            Date de début
+                        </label>
+                        <input asp-for="DateDebut" type="date" class="form-control-modern" id="DateDebut" required />
+                        <span asp-validation-for="DateDebut" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label for="DateFin" class="form-label-modern">
+                            <i class="bi bi-calendar-event"></i>
+                            Date de fin
+                        </label>
+                        <input asp-for="DateFin" type="date" class="form-control-modern" id="DateFin" required />
+                        <span asp-validation-for="DateFin" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Calcul automatique de la durée -->
+                <div class="duree-info" id="dureeInfo" style="display: none;">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Durée : <strong id="nombreJours">0</strong> jour(s)</span>
+                </div>
+
+                <!-- Motif -->
+                <div class="form-group-modern">
+                    <label for="Motif" class="form-label-modern">
+                        <i class="bi bi-file-text"></i>
+                        Motif (optionnel)
+                    </label>
+                    <textarea asp-for="Motif" class="form-control-modern textarea-modern" rows="4" 
+                              placeholder="Décrivez brièvement la raison de votre demande..."></textarea>
+                    <span asp-validation-for="Motif" class="text-danger"></span>
+                </div>
+
+                <!-- Boutons d'action -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">
+                        <i class="bi bi-send"></i>
+                        Soumettre la demande
+                    </button>
+                    <a asp-action="MesDemandes" class="btn-cancel">
+                        Annuler
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sidebar avec informations -->
+        <div class="sidebar-info">
+            <!-- Solde de congé -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <i class="bi bi-calendar3"></i>
+                    <h3>Votre solde de congé</h3>
+                </div>
+                <div class="info-card-body">
+                    <div class="solde-item">
+                        <span class="solde-label">Total annuel</span>
+                        <span class="solde-value solde-total">@joursTotal jours</span>
+                    </div>
+                    <div class="solde-item">
+                        <span class="solde-label">Jours restants</span>
+                        <span class="solde-value solde-restant">@joursRestants jours</span>
+                    </div>
+                    <div class="solde-progress">
+                        <div class="solde-progress-bar" style="width: @((double)joursRestants / joursTotal * 100)%"></div>
+                    </div>
+                    <p class="solde-note">
+                        @if (joursRestants < 5)
+                        {
+                            <i class="bi bi-exclamation-triangle text-warning"></i>
+                            <span>Attention : il vous reste peu de jours de congé</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-info-circle"></i>
+                            <span>Vous disposez encore de @joursRestants jours de congé</span>
+                        }
+                    </p>
+                </div>
+            </div>
+
+            <!-- Conseils -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <i class="bi bi-lightbulb"></i>
+                    <h3>Conseils</h3>
+                </div>
+                <div class="info-card-body">
+                    <ul class="tips-list">
+                        <li>
+                            <i class="bi bi-check-circle"></i>
+                            Soumettez votre demande au moins 2 semaines à l'avance
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle"></i>
+                            Vérifiez vos dates avant de soumettre
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle"></i>
+                            Votre manager sera notifié automatiquement
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle"></i>
+                            Vous recevrez une notification lors de la validation
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateDebut = document.getElementById('DateDebut');
+            const dateFin = document.getElementById('DateFin');
+            const dureeInfo = document.getElementById('dureeInfo');
+            const nombreJours = document.getElementById('nombreJours');
+            const typeSelect = document.getElementById('TypeCongeId');
+
+            // Limites de jours par type (fournies par le serveur)
+            const typeLimits = @Html.Raw(JsonSerializer.Serialize(ViewData["TypeCongeLimits"] ?? new Dictionary<int, int>()));
+
+            // Définir la date minimum à aujourd'hui
+            const today = new Date().toISOString().split('T')[0];
+            dateDebut.setAttribute('min', today);
+            dateFin.setAttribute('min', today);
+
+            // Calcul automatique de la durée
+            function calculateDuration() {
+                if (dateDebut.value && dateFin.value) {
+                    const debut = new Date(dateDebut.value);
+                    const fin = new Date(dateFin.value);
+                    
+                    if (fin < debut) {
+                        dateFin.setCustomValidity('La date de fin doit être après la date de début');
+                        dureeInfo.style.display = 'none';
+                        return;
+                    } else {
+                        dateFin.setCustomValidity('');
+                    }
+                    
+                    const diffTime = Math.abs(fin - debut);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                    
+                    nombreJours.textContent = diffDays;
+                    dureeInfo.style.display = 'flex';
+
+                    // Vérifier si assez de jours disponibles (solde)
+                    const joursRestants = @joursRestants;
+                    if (diffDays > joursRestants) {
+                        dureeInfo.classList.add('duree-warning');
+                        dureeInfo.innerHTML = `<i class="bi bi-exclamation-triangle"></i>
+                            <span>Durée : <strong>${diffDays}</strong> jour(s) 
+                            <span class="text-danger">(insuffisant)</span></span>`;
+                    } else {
+                        dureeInfo.classList.remove('duree-warning');
+                        dureeInfo.innerHTML = `<i class="bi bi-clock-history"></i>
+                            <span>Durée : <strong>${diffDays}</strong> jour(s)</span>`;
+                    }
+
+                    // Vérifier la limite du type de congé sélectionné
+                    const selectedTypeId = typeSelect.value;
+                    if (selectedTypeId && typeLimits[selectedTypeId]) {
+                        const maxForType = typeLimits[selectedTypeId];
+                        if (diffDays > maxForType) {
+                            dateFin.setCustomValidity(`La durée demandée (${diffDays} jours) dépasse la limite de ${maxForType} jours pour ce type de congé.`);
+                            dureeInfo.classList.add('duree-warning');
+                            dureeInfo.innerHTML = `<i class="bi bi-exclamation-triangle"></i>
+                                <span>Durée : <strong>${diffDays}</strong> jour(s) 
+                                <span class="text-danger">(dépasse la limite de ${maxForType})</span></span>`;
+                        } else {
+                            dateFin.setCustomValidity('');
+                        }
+                    } else {
+                        dateFin.setCustomValidity('');
+                    }
+                } else {
+                    dureeInfo.style.display = 'none';
+                }
+            }
+
+            dateDebut.addEventListener('change', function() {
+                dateFin.setAttribute('min', this.value);
+                calculateDuration();
+            });
+
+            dateFin.addEventListener('change', calculateDuration);
+            typeSelect.addEventListener('change', calculateDuration);
+
+            // Validation du formulaire : recalculer et montrer les messages natifs
+            const form = document.getElementById('congeForm');
+            form.addEventListener('submit', function(e) {
+                calculateDuration();
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    form.reportValidity();
+                }
+            });
+
+            // Calcul initial si les valeurs sont déjà présentes (cas retour validation)
+            calculateDuration();
+        });
+    </script>
 }

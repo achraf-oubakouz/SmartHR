@@ -1,0 +1,211 @@
+@model SmartHR.ViewModels.MesDemandesViewModel
+
+@{
+    ViewData["Title"] = "Mes demandes de congé";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/conges.css" />
+
+<div class="conges-container">
+    <div class="conges-header">
+        <div class="header-content">
+            <h1>@(Model.IsModerator ? "Gestion des demandes de congé" : "Mes demandes de congé")</h1>
+            <p class="subtitle">
+                @(Model.IsModerator 
+                    ? "Validez ou refusez les demandes des employés."
+                    : "Consultez l'état de vos demandes et votre solde")
+            </p>
+        </div>
+        @if (!Model.IsModerator)
+        {
+            <a asp-action="Create" class="btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                Nouvelle demande
+            </a>
+        }
+        else
+        {
+            <span class="badge bg-primary" style="align-self:center;">@Model.CurrentRole</span>
+        }
+    </div>
+
+    <!-- Filtres -->
+    <div class="conges-filters">
+        <div class="filter-group">
+            <button class="filter-btn active" data-filter="all">
+                Toutes (@Model.Demandes.Count)
+            </button>
+            <button class="filter-btn" data-filter="En attente">
+                En attente (@Model.Demandes.Count(d => d.Statut == "En attente"))
+            </button>
+            <button class="filter-btn" data-filter="Validé">
+                Validées (@Model.Demandes.Count(d => d.Statut == "Validé"))
+            </button>
+            <button class="filter-btn" data-filter="Refusé">
+                Refusées (@Model.Demandes.Count(d => d.Statut == "Refusé"))
+            </button>
+        </div>
+    </div>
+
+    <!-- Liste des demandes -->
+    @if (!Model.Demandes.Any())
+    {
+        <div class="empty-state">
+            <i class="bi bi-calendar-x"></i>
+            <h3>Aucune demande de congé</h3>
+            <p>Vous n'avez pas encore soumis de demande de congé.</p>
+            <a asp-action="Create" class="btn-primary">Créer ma première demande</a>
+        </div>
+    }
+    else
+    {
+        <div class="conges-table-wrapper">
+            <table class="conges-table">
+                <thead>
+                    <tr>
+                        <th>Employé</th>
+                        <th>Type</th>
+                        <th>Période</th>
+                        <th>Jours</th>
+                        <th>Statut</th>
+                        <th class="actions-col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var demande in Model.Demandes)
+                {
+                    var firstInitial = !string.IsNullOrEmpty(demande.EmployePrenom) ? demande.EmployePrenom.Substring(0, 1).ToUpper() : "";
+                    var lastInitial = !string.IsNullOrEmpty(demande.EmployeNom) ? demande.EmployeNom.Substring(0, 1).ToUpper() : "";
+                    var initials = firstInitial + lastInitial;
+                    <tr class="conge-row" data-statut="@demande.Statut">
+                        <td>
+                            <div class="employe-info">
+                                <div class="employe-avatar">@initials</div>
+                                <div class="employe-details">
+                                    <span class="employe-nom">@demande.EmployePrenom @demande.EmployeNom</span>
+                                    @if (!string.IsNullOrWhiteSpace(demande.EmployePoste))
+                                    {
+                                        <span class="employe-meta">@demande.EmployePoste</span>
+                                    }
+                                    <span class="employe-meta">Demandé le @demande.DateDemande.ToString("dd/MM/yyyy")</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="type-badge">
+                                <i class="bi bi-calendar-event"></i>
+                                @demande.TypeConge
+                            </span>
+                        </td>
+                        <td>
+                            <div class="periode-info">
+                                <div class="date-range">
+                                    <span>@demande.DateDebut.ToString("dd/MM")</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                    <span>@demande.DateFin.ToString("dd/MM")</span>
+                                </div>
+                                @if (!string.IsNullOrEmpty(demande.Motif))
+                                {
+                                    <div class="demande-motif inline mt-1">
+                                        <i class="bi bi-file-text"></i>
+                                        <span>@demande.Motif</span>
+                                    </div>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <span class="duree-badge">@demande.NombreJours j</span>
+                        </td>
+                        <td>
+                            <span class="status-badge @demande.StatutClass">
+                                <span class="status-icon">@demande.StatutIcon</span>
+                                @demande.Statut
+                            </span>
+                        </td>
+                        <td>
+                            <div class="cell-actions">
+                                @if (demande.Statut == "En attente")
+                                {
+                                    if (!Model.IsModerator)
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@demande.Id" class="btn-edit btn-xs">
+                                            <i class="bi bi-pencil"></i>
+                                            Modifier
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@demande.Id" class="btn-delete btn-xs">
+                                            <i class="bi bi-trash"></i>
+                                            Annuler
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="Approve" method="post" class="inline-form">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@demande.Id" />
+                                            <button type="submit" class="btn-edit btn-xs">
+                                                <i class="bi bi-check-circle"></i>
+                                                Valider
+                                            </button>
+                                        </form>
+                                        <form asp-action="Reject" method="post" class="inline-form">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@demande.Id" />
+                                            <button type="submit" class="btn-delete btn-xs">
+                                                <i class="bi bi-x-circle"></i>
+                                                Refuser
+                                            </button>
+                                        </form>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="status-chip muted">@demande.Statut</span>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filtres de statut
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const demandeRows = document.querySelectorAll('.conge-row');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter rows
+                demandeRows.forEach(row => {
+                    const statut = row.getAttribute('data-statut');
+                    if (filter === 'all' || statut === filter) {
+                        row.style.display = '';
+                        setTimeout(() => row.classList.add('show'), 10);
+                    } else {
+                        row.classList.remove('show');
+                        setTimeout(() => row.style.display = 'none', 300);
+                    }
+                });
+            });
+        });
+
+        // Animation d'entrée
+        demandeRows.forEach((row, index) => {
+            setTimeout(() => {
+                row.classList.add('show');
+            }, index * 50);
+        });
+    });
+</script>
+

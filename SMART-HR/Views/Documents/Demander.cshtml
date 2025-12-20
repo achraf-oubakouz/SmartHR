@@ -1,0 +1,211 @@
+@{
+    ViewData["Title"] = "Demander un Document";
+    var typesDocuments = ViewBag.TypesDocuments as List<string>;
+}
+
+<style>
+    .page-header {
+        margin-bottom: 2rem;
+    }
+    .page-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #334155;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        margin-bottom: 1rem;
+        transition: all 0.2s;
+    }
+    .btn-back:hover {
+        background: #f8fafc;
+        color: #1a1a2e;
+    }
+    .form-card {
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        max-width: 600px;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 0.5rem;
+    }
+    .form-control-custom {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    .form-control-custom:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    .type-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0.75rem;
+    }
+    .type-option {
+        position: relative;
+    }
+    .type-option input {
+        position: absolute;
+        opacity: 0;
+    }
+    .type-option label {
+        display: block;
+        padding: 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+    .type-option label:hover {
+        border-color: #3b82f6;
+        background: #f8fafc;
+    }
+    .type-option input:checked + label {
+        border-color: #3b82f6;
+        background: #dbeafe;
+    }
+    .type-option .type-icon {
+        font-size: 1.5rem;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .type-option .type-name {
+        font-weight: 500;
+        color: #334155;
+        font-size: 0.875rem;
+    }
+    .btn-submit {
+        padding: 0.75rem 2rem;
+        background: #1a1a2e;
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .btn-submit:hover {
+        background: #16213e;
+    }
+    .btn-cancel {
+        padding: 0.75rem 2rem;
+        background: white;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        margin-left: 1rem;
+    }
+    .btn-cancel:hover {
+        background: #f8fafc;
+        color: #334155;
+    }
+    .info-box {
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .info-box p {
+        margin: 0;
+        color: #0369a1;
+        font-size: 0.875rem;
+    }
+</style>
+
+<div class="container py-4">
+    <a asp-action="Index" class="btn-back">
+        ← Retour aux documents
+    </a>
+
+    <div class="page-header">
+        <h1>📝 Demander un Document</h1>
+    </div>
+
+    <div class="form-card">
+        <div class="info-box">
+            <p>ℹ️ Votre demande sera traitée par le service RH dans un délai de 48h ouvrées. Vous serez notifié par email lorsque votre document sera disponible.</p>
+        </div>
+
+        <form asp-action="Demander" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label class="form-label">Type de document</label>
+                <div class="type-options">
+                    <div class="type-option">
+                        <input type="radio" name="typeDocument" id="type1" value="Attestation de travail" checked>
+                        <label for="type1">
+                            <span class="type-icon">📜</span>
+                            <span class="type-name">Attestation de travail</span>
+                        </label>
+                    </div>
+                    <div class="type-option">
+                        <input type="radio" name="typeDocument" id="type2" value="Attestation de salaire">
+                        <label for="type2">
+                            <span class="type-icon">💰</span>
+                            <span class="type-name">Attestation de salaire</span>
+                        </label>
+                    </div>
+                    <div class="type-option">
+                        <input type="radio" name="typeDocument" id="type3" value="Certificat de travail">
+                        <label for="type3">
+                            <span class="type-icon">📋</span>
+                            <span class="type-name">Certificat de travail</span>
+                        </label>
+                    </div>
+                    <div class="type-option">
+                        <input type="radio" name="typeDocument" id="type4" value="Relevé d'heures">
+                        <label for="type4">
+                            <span class="type-icon">⏰</span>
+                            <span class="type-name">Relevé d'heures</span>
+                        </label>
+                    </div>
+                    <div class="type-option">
+                        <input type="radio" name="typeDocument" id="type5" value="Autre">
+                        <label for="type5">
+                            <span class="type-icon">📄</span>
+                            <span class="type-name">Autre document</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="motif" class="form-label">Motif de la demande (optionnel)</label>
+                <textarea name="motif" id="motif" class="form-control-custom" rows="3" placeholder="Précisez le motif de votre demande..."></textarea>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn-submit">📤 Envoyer la demande</button>
+                <a asp-action="Index" class="btn-cancel">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,407 @@
+﻿@model IEnumerable<SmartHR.Models.Calendriers>
+
+@{
+    ViewData["Title"] = "Calendrier";
+    var selectedMonth = (int)ViewBag.SelectedMonth;
+    var selectedYear = (int)ViewBag.SelectedYear;
+    var monthName = (string)ViewBag.MonthName;
+    var daysInMonth = (int)ViewBag.DaysInMonth;
+    var firstDayOfWeek = (DayOfWeek)ViewBag.FirstDayOfMonth;
+    var congesApprouves = ViewBag.CongesApprouves as List<SmartHR.Models.DemandeConge>;
+    var joursFeries = ViewBag.JoursFeries as List<(DateTime date, string nom)>;
+    var today = (DateTime)ViewBag.Today;
+    var role = Context.Session.GetString("UserRole");
+    bool canManageEvents = role == "Admin" || role == "Manager" || role == "RH";
+    
+    // Convertir DayOfWeek pour commencer par Lundi (0) au lieu de Dimanche
+    int startOffset = firstDayOfWeek == DayOfWeek.Sunday ? 6 : ((int)firstDayOfWeek - 1);
+}
+
+<style>
+    .calendar-header {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+    }
+    .calendar-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    .month-nav {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    .month-nav a {
+        padding: 0.5rem 1rem;
+        background: rgba(255,255,255,0.1);
+        color: white;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+    .month-nav a:hover {
+        background: rgba(255,255,255,0.2);
+        color: white;
+    }
+    .month-nav .current-month {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+    .calendar-container {
+        background: white;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+    }
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+    }
+    .calendar-day-header {
+        padding: 0.75rem;
+        text-align: center;
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+    }
+    .calendar-day {
+        min-height: 100px;
+        padding: 0.5rem;
+        border: 1px solid #e2e8f0;
+        background: #f8fafc;
+        position: relative;
+        transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+    }
+    .calendar-day.empty {
+        background: #f1f5f9;
+    }
+    .calendar-day.weekend:not(.ferie) {
+        background: #e0e7ff; /* stronger indigo for weekends */
+        border-color: #c7d2fe;
+    }
+    .calendar-day.today {
+        background: #bfdbfe; /* brighter blue for today */
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.5);
+        transform: translateY(-1px);
+    }
+    .calendar-day.ferie {
+        background: #fed7aa; /* vivid orange for holidays */
+        border-color: #fb923c;
+    }
+    .calendar-day.has-conge {
+        background: #22c55e; /* green for approved leave of current user */
+        border-color: #16a34a;
+    }
+    .calendar-day.has-conge .day-number {
+        color: #052e16;
+    }
+    .calendar-day .day-number {
+        font-weight: 700;
+        color: #0f172a;
+        font-size: 0.875rem;
+    }
+    .calendar-day.today .day-number {
+        background: #3b82f6;
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .calendar-day .events {
+        margin-top: 0.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .event-badge {
+        font-size: 0.625rem;
+        padding: 2px 4px;
+        border-radius: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+.event-badge.conge { background: #22c55e; color: #052e16; }
+    .event-badge.ferie { background: #fb923c; color: #431407; }
+    .event-badge.event { background: #3b82f6; color: #eff6ff; }
+    .event-badge.reunion { background: #a855f7; color: #fdf4ff; }
+
+    .event-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4px;
+    }
+    .event-actions {
+        display: none;
+        gap: 4px;
+    }
+    .event-item:hover .event-actions {
+        display: inline-flex;
+    }
+    .event-action-btn {
+        padding: 0;
+        border: none;
+        background: transparent;
+        font-size: 0.7rem;
+        line-height: 1;
+        color: inherit;
+        cursor: pointer;
+    }
+    .legend {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e2e8f0;
+    }
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: #64748b;
+    }
+    .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+    }
+.legend-color.conge { background: #22c55e; }
+    .legend-color.ferie { background: #fb923c; }
+    .legend-color.event { background: #3b82f6; }
+    .legend-color.reunion { background: #a855f7; }
+    .sidebar {
+        background: white;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .sidebar h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 1rem;
+    }
+    .upcoming-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .upcoming-item {
+        display: flex;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: #f8fafc;
+        border-radius: 0.5rem;
+    }
+    .upcoming-date {
+        background: #1a1a2e;
+        color: white;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        min-width: 50px;
+    }
+    .upcoming-date .day {
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+    .upcoming-date .month {
+        font-size: 0.625rem;
+        text-transform: uppercase;
+    }
+    .upcoming-info h5 {
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 0.25rem;
+        font-size: 0.875rem;
+    }
+    .upcoming-info p {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin: 0;
+    }
+    .btn-add {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: #1a1a2e;
+        color: white;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        margin-top: 1rem;
+    }
+    .btn-add:hover {
+        background: #16213e;
+        color: white;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="calendar-header">
+        <h1>Calendrier</h1>
+        <p>Visualisez les congés, événements et jours fériés</p>
+        <div class="month-nav">
+            @{
+                var prevMonth = selectedMonth == 1 ? 12 : selectedMonth - 1;
+                var prevYear = selectedMonth == 1 ? selectedYear - 1 : selectedYear;
+                var nextMonth = selectedMonth == 12 ? 1 : selectedMonth + 1;
+                var nextYear = selectedMonth == 12 ? selectedYear + 1 : selectedYear;
+            }
+            <a href="@Url.Action("Index", new { mois = prevMonth, annee = prevYear })">← Précédent</a>
+            <span class="current-month">@monthName @selectedYear</span>
+            <a href="@Url.Action("Index", new { mois = nextMonth, annee = nextYear })">Suivant →</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="calendar-container">
+                <div class="calendar-grid">
+                    <!-- Headers des jours -->
+                    <div class="calendar-day-header">Lun</div>
+                    <div class="calendar-day-header">Mar</div>
+                    <div class="calendar-day-header">Mer</div>
+                    <div class="calendar-day-header">Jeu</div>
+                    <div class="calendar-day-header">Ven</div>
+                    <div class="calendar-day-header">Sam</div>
+                    <div class="calendar-day-header">Dim</div>
+
+                    <!-- Cases vides avant le premier jour -->
+                    @for (int i = 0; i < startOffset; i++)
+                    {
+                        <div class="calendar-day empty"></div>
+                    }
+
+                    <!-- Jours du mois -->
+                    @for (int day = 1; day <= daysInMonth; day++)
+                    {
+                        var currentDate = new DateTime(selectedYear, selectedMonth, day);
+                        var isToday = currentDate.Date == today.Date;
+                        var isWeekend = currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday;
+                        var jourFerie = joursFeries?.FirstOrDefault(j => j.date.Date == currentDate.Date);
+                        var isFerie = joursFeries != null && joursFeries.Any(j => j.date.Date == currentDate.Date);
+                        var congesDuJour = congesApprouves?.Where(c => currentDate >= c.DateDebut.Date && currentDate <= c.DateFin.Date).ToList();
+                        var hasConge = congesDuJour != null && congesDuJour.Any();
+                        var eventsDuJour = Model.Where(e => currentDate >= e.DateDebut.Date && currentDate <= e.DateFin.Date).ToList();
+
+                        <div class="calendar-day @(isToday ? "today" : "") @(isFerie ? "ferie" : "") @(isWeekend ? "weekend" : "") @(hasConge ? "has-conge" : "")">
+                            <div class="day-number">@day</div>
+                            <div class="events">
+                                @if (isFerie)
+                                {
+                                    var nomFerie = jourFerie?.nom ?? "Jour férié";
+                                    <span class="event-badge ferie" title="@nomFerie">@nomFerie</span>
+                                }
+                                @if (hasConge)
+                                {
+                                    <span class="event-badge conge" title="Congé approuvé">Congé</span>
+                                }
+                                @foreach (var evt in eventsDuJour.Take(2))
+                                {
+                                    var badgeClass = evt.Type == "Réunion" ? "reunion" : "event";
+                                    <div class="event-item">
+                                        <span class="event-badge @badgeClass" title="@evt.Titre">
+                                            @(evt.Titre?.Substring(0, Math.Min(12, evt.Titre?.Length ?? 0)))...
+                                        </span>
+                                        @if (canManageEvents)
+                                        {
+                                            <div class="event-actions">
+                                                <a asp-controller="Calendriers" asp-action="Edit" asp-route-id="@evt.Id" class="event-action-btn" title="Modifier l'événement">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <a asp-controller="Calendriers" asp-action="Delete" asp-route-id="@evt.Id" class="event-action-btn text-danger" title="Supprimer l'événement">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color conge"></div>
+                        <span>Congés approuvés</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color ferie"></div>
+                        <span>Jours fériés</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color event"></div>
+                        <span>Événements</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color reunion"></div>
+                        <span>Réunions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="sidebar">
+                <h3>Prochains événements</h3>
+                <div class="upcoming-list">
+                    @{
+                        var upcomingFeries = joursFeries?
+                            .Where(j => j.date >= today)
+                            .OrderBy(j => j.date)
+                            .Take(3)
+                            .ToList();
+                    }
+                    @if (upcomingFeries != null && upcomingFeries.Any())
+                    {
+                        @foreach (var ferie in upcomingFeries)
+                        {
+                            <div class="upcoming-item">
+                                <div class="upcoming-date">
+                                    <div class="day">@ferie.date.Day</div>
+                                    <div class="month">@ferie.date.ToString("MMM")</div>
+                                </div>
+                                <div class="upcoming-info">
+                                    <h5>@ferie.nom</h5>
+                                    <p>Jour férié</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted small">Aucun événement à venir</p>
+                    }
+                </div>
+
+                
+                @if (role == "Admin" || role == "Manager" || role == "RH")
+                {
+                    <a asp-action="Create" class="btn-add">
+                        Ajouter un événement
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

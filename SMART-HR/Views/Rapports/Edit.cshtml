@@ -1,58 +1,136 @@
 ﻿@model SmartHR.Models.Rapport
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Modifier le Rapport";
 }
 
-<h1>Edit</h1>
+<style>
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #334155;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        margin-bottom: 1rem;
+        transition: all 0.2s;
+    }
+    .btn-back:hover {
+        background: #f8fafc;
+        color: #1a1a2e;
+    }
+    .page-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 1rem;
+    }
+    .form-card {
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        max-width: 600px;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 0.5rem;
+    }
+    .form-control-custom {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    .form-control-custom:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    .btn-submit {
+        padding: 0.75rem 2rem;
+        background: #1a1a2e;
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .btn-submit:hover {
+        background: #16213e;
+    }
+    .btn-cancel {
+        padding: 0.75rem 2rem;
+        background: white;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        margin-left: 1rem;
+    }
+    .btn-cancel:hover {
+        background: #f8fafc;
+        color: #334155;
+    }
+</style>
 
-<h4>Rapport</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container py-4">
+    <a asp-action="Historique" class="btn-back">
+        ← Retour à l'historique
+    </a>
+
+    <div class="page-header">
+        <h1>Modifier le rapport</h1>
+    </div>
+
+    <div class="form-card">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="DateGeneration" />
+
             <div class="form-group">
-                <label asp-for="DateGeneration" class="control-label"></label>
-                <input asp-for="DateGeneration" class="form-control" />
-                <span asp-validation-for="DateGeneration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Titre" class="control-label"></label>
-                <input asp-for="Titre" class="form-control" />
+                <label asp-for="Titre" class="form-label">Titre du Rapport</label>
+                <input asp-for="Titre" class="form-control-custom" />
                 <span asp-validation-for="Titre" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
+                <label asp-for="Type" class="form-label">Type de Rapport</label>
+                <select asp-for="Type" class="form-control-custom">
+                    <option value="EmployesParDepartement">Employés par Département</option>
+                    <option value="UtilisationConges">Utilisation des Congés</option>
+                    <option value="PeriodesPic">Périodes de Pic</option>
+                    <option value="TendancesAnnuelles">Tendances Annuelles</option>
+                    <option value="RapportComplet">Rapport Complet</option>
+                </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="FichierPath" class="control-label"></label>
-                <input asp-for="FichierPath" class="form-control" />
-                <span asp-validation-for="FichierPath" class="text-danger"></span>
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control-custom" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ManagerId" class="control-label"></label>
-                <select asp-for="ManagerId" class="form-control" asp-items="ViewBag.ManagerId"></select>
-                <span asp-validation-for="ManagerId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="mt-4">
+                <button type="submit" class="btn-submit">Enregistrer</button>
+                <a asp-action="Historique" class="btn-cancel">Annuler</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

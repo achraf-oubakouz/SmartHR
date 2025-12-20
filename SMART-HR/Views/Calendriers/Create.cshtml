@@ -1,0 +1,72 @@
+﻿@model SmartHR.Models.Calendriers
+
+@{
+    ViewData["Title"] = "Créer un événement";
+}
+
+<div class="container py-5">
+    <div class="mb-4">
+        <h1 class="event-page-title">Créer un événement</h1>
+        <p class="event-page-subtitle">Planifiez un jour férié, un congé, une réunion ou un autre événement dans le calendrier.</p>
+    </div>
+    <div class="row">
+        <div class="col-lg-7 col-md-8">
+            <div class="event-card">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="event-form-group mb-3">
+                        <label asp-for="Titre" class="control-label">Titre</label>
+                        <input asp-for="Titre" class="form-control" />
+                        <span asp-validation-for="Titre" class="text-danger"></span>
+                    </div>
+
+                    <div class="event-form-group mb-3">
+                        <label asp-for="Type" class="control-label">Type</label>
+                        <select asp-for="Type" class="form-control">
+                            <option value="">-- Sélectionner --</option>
+                            <option value="Férié">Férié</option>
+                            <option value="Événement">Événement</option>
+                            <option value="Réunion">Réunion</option>
+                            <option value="Congé">Congé</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="event-form-group mb-3">
+                                <label asp-for="DateDebut" class="control-label">Date début</label>
+                                <input asp-for="DateDebut" type="date" class="form-control" />
+                                <span asp-validation-for="DateDebut" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="event-form-group mb-3">
+                                <label asp-for="DateFin" class="control-label">Date fin</label>
+                                <input asp-for="DateFin" type="date" class="form-control" />
+                                <span asp-validation-for="DateFin" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-form-group mb-3">
+                        <label asp-for="Description" class="control-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="event-form-footer d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Créer</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,78 +1,217 @@
-﻿@model IEnumerable<SmartHR.Models.DemandeConge>
+﻿@model IEnumerable<SmartHR.ViewModels.DemandeCongeListViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Gestion des Congés";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<link rel="stylesheet" href="~/css/conges.css" />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Employe)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TypeConge)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateDebut)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Motif)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateDemande)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Statut)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manager)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employe.Departement)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TypeConge.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateDebut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Motif)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateDemande)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Statut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manager.Departement)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="conges-container">
+    <div class="conges-header">
+        <div class="header-content">
+            <h1>Demandes de Congé</h1>
+            <p class="subtitle">Gérez et suivez toutes les demandes de congé</p>
+        </div>
+        <div class="header-actions">
+            <a asp-action="Create" class="btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                Nouvelle demande
+            </a>
+        </div>
+    </div>
+
+    <div class="conges-filters">
+        <div class="filter-group">
+            <button class="filter-btn active" data-filter="all">
+                Toutes (@Model.Count())
+            </button>
+            <button class="filter-btn" data-filter="En attente">
+                En attente (@Model.Count(d => d.Statut == "En attente"))
+            </button>
+            <button class="filter-btn" data-filter="Validé">
+                Validées (@Model.Count(d => d.Statut == "Validé"))
+            </button>
+            <button class="filter-btn" data-filter="Refusé">
+                Refusées (@Model.Count(d => d.Statut == "Refusé"))
+            </button>
+        </div>
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" id="searchInput" placeholder="Rechercher un employé...">
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <i class="bi bi-calendar-x"></i>
+            <h3>Aucune demande de congé</h3>
+            <p>Aucune demande n'a été soumise pour le moment.</p>
+            <a asp-action="Create" class="btn-primary">Créer la première demande</a>
+        </div>
+    }
+    else
+    {
+        <div class="conges-table-wrapper">
+            <table class="conges-table">
+                <thead>
+                    <tr>
+                        <th>Employé</th>
+                        <th>Poste</th>
+                        <th>Manager</th>
+                        <th>Type de congé</th>
+                        <th>Période</th>
+                        <th>Durée</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="congesTableBody">
+                    @foreach (var demande in Model)
+                    {
+                        <tr class="conge-row" data-statut="@demande.Statut">
+                            <td>
+                                <div class="employe-info">
+                                    <div class="employe-avatar">
+                                        @demande.EmployePrenom.Substring(0, 1)@demande.EmployeNom.Substring(0, 1)
+                                    </div>
+                                    <div class="employe-details">
+                                        <div class="employe-nom">@demande.EmployePrenom @demande.EmployeNom</div>
+                                        <div class="employe-meta">Demandé le @demande.DateDemande.ToString("dd/MM/yyyy")</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="poste-badge">@demande.EmployePoste</span>
+                            </td>
+                            <td>
+                                <div class="manager-info">
+                                    @demande.ManagerPrenom @demande.ManagerNom
+                                </div>
+                            </td>
+                            <td>
+                                <span class="type-badge">@demande.TypeConge</span>
+                            </td>
+                            <td>
+                                <div class="periode-info">
+                                    <div class="date-range">
+                                        <span class="date-debut">@demande.DateDebut.ToString("dd/MM/yyyy")</span>
+                                        <i class="bi bi-arrow-right"></i>
+                                        <span class="date-fin">@demande.DateFin.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="duree-badge">@demande.NombreJours jour@(demande.NombreJours > 1 ? "s" : "")</span>
+                            </td>
+                            <td>
+                                <span class="status-badge @demande.StatutClass">
+                                    <span class="status-icon">@demande.StatutIcon</span>
+                                    @demande.Statut
+                                </span>
+                            </td>
+                            <td>
+                                <div class="actions-dropdown">
+                                    <button class="btn-actions" type="button">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <div class="actions-menu">
+                                        <a asp-action="Details" asp-route-id="@demande.Id" class="action-item">
+                                            <i class="bi bi-eye"></i> Détails
+                                        </a>
+                                        @if (demande.Statut == "En attente")
+                                        {
+                                            <form asp-action="Approve" asp-route-id="@demande.Id" method="post" style="display:inline;">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="action-item action-approve">
+                                                    <i class="bi bi-check-circle"></i> Valider
+                                                </button>
+                                            </form>
+                                            <form asp-action="Reject" asp-route-id="@demande.Id" method="post" style="display:inline;">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="action-item action-reject">
+                                                    <i class="bi bi-x-circle"></i> Refuser
+                                                </button>
+                                            </form>
+                                            <a asp-action="Edit" asp-route-id="@demande.Id" class="action-item">
+                                                <i class="bi bi-pencil"></i> Modifier
+                                            </a>
+                                        }
+                                        <a asp-action="Delete" asp-route-id="@demande.Id" class="action-item action-delete">
+                                            <i class="bi bi-trash"></i> Supprimer
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filtres de statut
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const congeRows = document.querySelectorAll('.conge-row');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter rows
+                congeRows.forEach(row => {
+                    if (filter === 'all' || row.dataset.statut === filter) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Recherche
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            congeRows.forEach(row => {
+                const employeInfo = row.querySelector('.employe-nom').textContent.toLowerCase();
+                if (employeInfo.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        
+        // Actions dropdown
+        document.querySelectorAll('.btn-actions').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const menu = this.nextElementSibling;
+                
+                // Close all other menus
+                document.querySelectorAll('.actions-menu').forEach(m => {
+                    if (m !== menu) m.classList.remove('show');
+                });
+                
+                menu.classList.toggle('show');
+            });
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.actions-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        });
+    });
+</script>

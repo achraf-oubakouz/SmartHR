@@ -30,6 +30,9 @@ namespace SmartHR.Models
         [MaxLength(100)]
         public string EmailProfessionnel { get; set; }
 
+        // 🔹 Gestion des congés
+        public int JoursCongesTotal { get; set; } = 30; // Jours de congé annuels par défaut
+
         // 🔹 Relations
         public int? ManagerId { get; set; }  // Le manager qui supervise cet employé
         [ForeignKey("ManagerId")]
